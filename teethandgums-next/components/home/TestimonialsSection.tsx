@@ -5,20 +5,9 @@ import { faChevronLeft, faChevronRight, faCircleCheck, faStar } from "@fortaweso
 
 import Image from "next/image";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import {
-  AnimatePresence,
-  m,
-  useReducedMotion,
-  type PanInfo,
-} from "framer-motion";
+import { AnimatePresence, m, useReducedMotion, type PanInfo } from "framer-motion";
 
-import {
-  FadeUp,
-  HoverButton,
-  HoverCard,
-  StaggerContainer,
-  StaggerItem,
-} from "@/components/animations";
+import { FadeUp, HoverButton, HoverCard, StaggerContainer, StaggerItem } from "@/components/animations";
 
 const testimonials = [
   {
@@ -92,7 +81,6 @@ export default function TestimonialsSection() {
   const touchStartXRef = useRef(0);
   const touchStartYRef = useRef(0);
   const didSwipeRef = useRef(false);
-
   const shouldReduceMotion = useReducedMotion();
 
   const nextSlide = useCallback(() => {
@@ -104,20 +92,12 @@ export default function TestimonialsSection() {
   }, []);
 
   const handleDragEnd = useCallback(
-  (
-    _: MouseEvent | TouchEvent | PointerEvent,
-    info: PanInfo,
-  ) => {
-    if (info.offset.x < -SWIPE_THRESHOLD) {
-      nextSlide();
-    }
-
-    if (info.offset.x > SWIPE_THRESHOLD) {
-      prevSlide();
-    }
-  },
-  [nextSlide, prevSlide],
-);
+    (_: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+      if (info.offset.x < -SWIPE_THRESHOLD) nextSlide();
+      if (info.offset.x > SWIPE_THRESHOLD) prevSlide();
+    },
+    [nextSlide, prevSlide],
+  );
 
   const handleTouchStart = useCallback((event: React.TouchEvent<HTMLDivElement>) => {
     const touch = event.touches[0];
@@ -133,18 +113,11 @@ export default function TestimonialsSection() {
       const deltaX = touch.clientX - touchStartXRef.current;
       const deltaY = touch.clientY - touchStartYRef.current;
 
-      if (
-  Math.abs(deltaX) >= SWIPE_THRESHOLD &&
-  Math.abs(deltaX) > Math.abs(deltaY)
-) {
-  didSwipeRef.current = true;
-
-  if (deltaX < 0) {
-    nextSlide();
-  } else {
-    prevSlide();
-  }
-}
+      if (Math.abs(deltaX) >= SWIPE_THRESHOLD && Math.abs(deltaX) > Math.abs(deltaY)) {
+        didSwipeRef.current = true;
+        if (deltaX < 0) nextSlide();
+        else prevSlide();
+      }
 
       window.setTimeout(() => {
         didSwipeRef.current = false;
@@ -154,14 +127,11 @@ export default function TestimonialsSection() {
     [nextSlide, prevSlide],
   );
 
-  const preventClickAfterSwipe = useCallback(
-    (event: React.MouseEvent<HTMLAnchorElement>) => {
-      if (!didSwipeRef.current) return;
-      event.preventDefault();
-      event.stopPropagation();
-    },
-    [],
-  );
+  const preventClickAfterSwipe = useCallback((event: React.MouseEvent<HTMLAnchorElement>) => {
+    if (!didSwipeRef.current) return;
+    event.preventDefault();
+    event.stopPropagation();
+  }, []);
 
   useEffect(() => {
     const updateCardsToShow = () => {
@@ -171,10 +141,7 @@ export default function TestimonialsSection() {
     };
 
     const handleResize = () => {
-      if (resizeFrameRef.current) {
-        cancelAnimationFrame(resizeFrameRef.current);
-      }
-
+      if (resizeFrameRef.current) cancelAnimationFrame(resizeFrameRef.current);
       resizeFrameRef.current = requestAnimationFrame(updateCardsToShow);
     };
 
@@ -183,120 +150,57 @@ export default function TestimonialsSection() {
 
     return () => {
       window.removeEventListener("resize", handleResize);
-
-      if (resizeFrameRef.current) {
-        cancelAnimationFrame(resizeFrameRef.current);
-      }
+      if (resizeFrameRef.current) cancelAnimationFrame(resizeFrameRef.current);
     };
   }, []);
 
   useEffect(() => {
     if (shouldReduceMotion || paused) return;
-
     const timer = setInterval(nextSlide, AUTOPLAY_INTERVAL);
-
     return () => clearInterval(timer);
   }, [nextSlide, paused, shouldReduceMotion]);
 
   useEffect(() => {
-    const handleVisibilityChange = () => {
-      setPaused(document.hidden);
-    };
-
+    const handleVisibilityChange = () => setPaused(document.hidden);
     document.addEventListener("visibilitychange", handleVisibilityChange);
-
-    return () => {
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
-    };
+    return () => document.removeEventListener("visibilitychange", handleVisibilityChange);
   }, []);
 
   const visibleTestimonials = useMemo(() => {
-    return Array.from({ length: cardsToShow }, (_, index) => {
-      return testimonials[(current + index) % testimonials.length];
-    });
+    return Array.from({ length: cardsToShow }, (_, index) => testimonials[(current + index) % testimonials.length]);
   }, [cardsToShow, current]);
 
   return (
-    <section
-      aria-labelledby="testimonials-title"
-      aria-roledescription="carousel"
-      className="relative overflow-hidden bg-gradient-to-b from-blue-50 to-white py-20 lg:py-28"
-    >
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full bg-blue-100/70 blur-2xl"
-      />
+    <section aria-labelledby="testimonials-title" aria-roledescription="carousel" className="relative overflow-hidden bg-white py-24 lg:py-32">
+      <div aria-hidden="true" className="pointer-events-none absolute -right-28 top-20 h-96 w-96 rounded-full bg-blue-100/45 blur-3xl" />
+      <div aria-hidden="true" className="pointer-events-none absolute -left-28 bottom-0 h-80 w-80 rounded-full bg-blue-50 blur-3xl" />
 
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -bottom-32 -left-32 h-80 w-80 rounded-full bg-blue-100/60 blur-2xl"
-      />
-
-      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 mx-auto max-w-[1380px] px-4 sm:px-6 lg:px-8">
         <FadeUp>
-          <div className="mx-auto max-w-3xl text-center">
-            <span className="inline-flex rounded-full bg-blue-100 px-5 py-2 text-sm font-black uppercase tracking-wide text-blue-600 ring-1 ring-blue-200/60">
-              Patient Testimonials
-            </span>
+          <div className="flex flex-col gap-7 lg:flex-row lg:items-end lg:justify-between">
+            <div className="max-w-3xl">
+              <span className="inline-flex rounded-full border border-blue-100 bg-blue-50 px-4 py-2 text-xs font-black uppercase tracking-[0.17em] text-blue-700">Patient Stories</span>
+              <h2 id="testimonials-title" className="mt-5 text-4xl font-black leading-[1.04] tracking-[-0.045em] text-[#08376f] md:text-5xl xl:text-[58px]">
+                Trusted by Patients.
+                <span className="block text-blue-600">Remembered for Care.</span>
+              </h2>
+              <p className="mt-5 max-w-2xl text-lg leading-8 text-slate-500">Real Google reviews reflecting our commitment to gentle, advanced, and comfortable dental care.</p>
+            </div>
 
-            <h2
-              id="testimonials-title"
-              className="mt-5 text-4xl font-black leading-tight text-slate-900 md:text-5xl"
-            >
-              What Our Patients Say
-            </h2>
-
-            <p className="mx-auto mt-5 max-w-2xl leading-8 text-slate-500">
-              Real Google reviews reflecting our commitment to gentle, advanced,
-              and comfortable dental care.
-            </p>
-
-            <HoverCard>
-              <a
-                href={googleReviewsLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="View Teeth and Gums Care Google reviews"
-                className="mx-auto mt-8 inline-flex items-center gap-4 rounded-[28px] border border-blue-100 bg-white px-7 py-5 shadow-[0_18px_50px_rgba(37,99,235,.12)] transition hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-200"
-              >
-                <div className="grid h-12 w-12 place-items-center rounded-full border border-slate-200 bg-white">
-                  <Image
-                    src="/images/google.svg"
-                    alt=""
-                    aria-hidden="true"
-                    width={26}
-                    height={26}
-                    
-                  />
-                </div>
-
-                <div className="text-left">
-                  <h3 className="font-black text-slate-900">
-                    4.9/5 Google Rating
-                  </h3>
-
-                  <span className="text-sm font-bold text-slate-500">
-                    Based on patient reviews
-                  </span>
-                </div>
-              </a>
-            </HoverCard>
+            <a href={googleReviewsLink} target="_blank" rel="noopener noreferrer" aria-label="View Teeth and Gums Care Google reviews" className="inline-flex items-center gap-4 rounded-[24px] border border-blue-100 bg-white px-5 py-4 shadow-[0_16px_45px_rgba(8,55,111,0.08)] transition hover:-translate-y-0.5 hover:shadow-[0_22px_55px_rgba(37,99,235,0.12)]">
+              <div className="grid h-12 w-12 place-items-center rounded-2xl bg-blue-50">
+                <Image src="/images/google.svg" alt="" aria-hidden="true" width={26} height={26} />
+              </div>
+              <div>
+                <div className="text-xl font-black text-[#08376f]">4.9/5</div>
+                <div className="text-xs font-bold text-slate-500">Google Rating</div>
+              </div>
+            </a>
           </div>
         </FadeUp>
 
-        <div
-          className="relative mt-14"
-          onMouseEnter={() => setPaused(true)}
-          onMouseLeave={() => setPaused(false)}
-          onTouchStart={() => setPaused(true)}
-          onTouchEnd={() => setPaused(false)}
-        >
-          <button
-            type="button"
-            onClick={prevSlide}
-            className="absolute -left-4 top-1/2 z-10 hidden h-12 w-12 -translate-y-1/2 place-items-center rounded-full bg-white text-2xl text-blue-600 shadow-xl shadow-blue-100 transition hover:bg-blue-600 hover:text-white active:scale-95 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-200 lg:grid"
-            aria-label="Previous testimonial"
-          >
+        <div className="relative mt-14" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)} onTouchStart={() => setPaused(true)} onTouchEnd={() => setPaused(false)}>
+          <button type="button" onClick={prevSlide} className="absolute -left-5 top-1/2 z-20 hidden h-12 w-12 -translate-y-1/2 place-items-center rounded-full border border-blue-100 bg-white text-blue-700 shadow-[0_14px_35px_rgba(8,55,111,0.12)] transition hover:bg-blue-600 hover:text-white lg:grid" aria-label="Previous testimonial">
             <FontAwesomeIcon aria-hidden="true" icon={faChevronLeft} />
           </button>
 
@@ -317,16 +221,8 @@ export default function TestimonialsSection() {
               transition={{ duration: shouldReduceMotion ? 0 : 0.35 }}
               className="cursor-grab touch-pan-y select-none active:cursor-grabbing"
             >
-              <StaggerContainer
-                className={`grid items-stretch gap-7 ${
-                  cardsToShow === 1
-                    ? "grid-cols-1"
-                    : cardsToShow === 2
-                      ? "grid-cols-2"
-                      : "grid-cols-3"
-                }`}
-              >
-                {visibleTestimonials.map((item) => (
+              <StaggerContainer className={`grid items-stretch gap-6 ${cardsToShow === 1 ? "grid-cols-1" : cardsToShow === 2 ? "grid-cols-2" : "grid-cols-3"}`}>
+                {visibleTestimonials.map((item, index) => (
                   <StaggerItem key={item.name}>
                     <HoverCard className="h-full">
                       <a
@@ -335,72 +231,33 @@ export default function TestimonialsSection() {
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label={`Read Google review by ${item.name}`}
-                        className="group relative flex h-full min-h-[400px] flex-col overflow-hidden rounded-[30px] border border-blue-100 bg-white p-8 shadow-[0_18px_50px_rgba(37,99,235,.10)] transition duration-300 hover:border-blue-200 hover:shadow-[0_28px_80px_rgba(37,99,235,.16)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-200"
+                        className={`group relative flex h-full min-h-[390px] flex-col overflow-hidden rounded-[30px] border p-7 transition-all duration-300 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-200 ${index === 0 ? "border-[#08376f] bg-gradient-to-br from-[#08376f] to-[#0b3c91] text-white shadow-[0_28px_70px_rgba(8,55,111,0.22)]" : "border-blue-100 bg-white text-slate-900 shadow-[0_18px_50px_rgba(8,55,111,0.09)] hover:border-blue-200 hover:shadow-[0_28px_70px_rgba(37,99,235,0.14)]"}`}
                       >
-                        <div
-                          aria-hidden="true"
-                          className="absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-[#4285F4] via-[#34A853] to-[#FBBC05]"
-                        />
-
                         <div className="flex items-center justify-between gap-4">
                           <div className="flex min-w-0 items-center gap-4">
-                            <div
-                              aria-hidden="true"
-                              className="grid h-14 w-14 shrink-0 place-items-center rounded-full bg-gradient-to-br from-blue-500 via-blue-600 to-blue-800 font-black text-white shadow-lg shadow-blue-200 transition duration-300 group-hover:scale-105"
-                            >
-                              {getInitials(item.name)}
-                            </div>
-
+                            <div className={`grid h-14 w-14 shrink-0 place-items-center rounded-full font-black shadow-lg ${index === 0 ? "bg-white text-blue-700" : "bg-gradient-to-br from-blue-500 to-[#0b3c91] text-white"}`}>{getInitials(item.name)}</div>
                             <div className="min-w-0">
-                              <h3 className="truncate font-black text-slate-900">
-                                {item.name}
-                              </h3>
-
-                              <span className="text-sm font-bold text-slate-500">
-                                {item.location}
-                              </span>
+                              <h3 className="truncate font-black">{item.name}</h3>
+                              <span className={`text-sm font-bold ${index === 0 ? "text-blue-100/70" : "text-slate-500"}`}>{item.location}</span>
                             </div>
                           </div>
-
-                          <div className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-slate-200 bg-white">
-                            <Image
-                              src="/images/google.svg"
-                              alt=""
-                              aria-hidden="true"
-                              width={22}
-                              height={22}
-                              
-                            />
+                          <div className={`grid h-10 w-10 shrink-0 place-items-center rounded-full ${index === 0 ? "bg-white" : "border border-slate-200 bg-white"}`}>
+                            <Image src="/images/google.svg" alt="" aria-hidden="true" width={22} height={22} />
                           </div>
                         </div>
 
-                        <div
-                          className="mt-6 flex flex-wrap items-center gap-1"
-                          aria-label={`${item.rating} star rating`}
-                        >
-                          {[...Array(item.rating)].map((_, index) => (
-                            <FontAwesomeIcon key={index}
-                              aria-hidden="true" icon={faStar} className="text-[#FBBC05] drop-shadow-sm" />
+                        <div className="mt-6 flex flex-wrap items-center gap-1" aria-label={`${item.rating} star rating`}>
+                          {[...Array(item.rating)].map((_, starIndex) => (
+                            <FontAwesomeIcon key={starIndex} aria-hidden="true" icon={faStar} className="text-[#FBBC05]" />
                           ))}
-
-                          <span className="ml-2 text-sm font-bold text-slate-500">
-                            {item.date}
-                          </span>
+                          <span className={`ml-2 text-sm font-bold ${index === 0 ? "text-blue-100/70" : "text-slate-500"}`}>{item.date}</span>
                         </div>
 
-                        <p
-                          className="mt-5 flex-1 leading-8 text-slate-600"
-                          style={{
-                            display: "-webkit-box",
-                            WebkitLineClamp: 7,
-                            WebkitBoxOrient: "vertical",
-                            overflow: "hidden",
-                          }}
-                        >
+                        <p className={`mt-5 flex-1 text-base leading-8 ${index === 0 ? "text-white/82" : "text-slate-600"}`} style={{ display: "-webkit-box", WebkitLineClamp: 7, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
                           “{item.review}”
                         </p>
 
-                        <div className="mt-6 font-black text-blue-600">
+                        <div className={`mt-6 font-black ${index === 0 ? "text-blue-200" : "text-blue-600"}`}>
                           <FontAwesomeIcon aria-hidden="true" icon={faCircleCheck} className="mr-2" />
                           Verified Google Review
                         </div>
@@ -412,114 +269,27 @@ export default function TestimonialsSection() {
             </m.div>
           </AnimatePresence>
 
-          <button
-            type="button"
-            onClick={nextSlide}
-            className="absolute -right-4 top-1/2 z-10 hidden h-12 w-12 -translate-y-1/2 place-items-center rounded-full bg-white text-2xl text-blue-600 shadow-xl shadow-blue-100 transition hover:bg-blue-600 hover:text-white active:scale-95 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-200 lg:grid"
-            aria-label="Next testimonial"
-          >
+          <button type="button" onClick={nextSlide} className="absolute -right-5 top-1/2 z-20 hidden h-12 w-12 -translate-y-1/2 place-items-center rounded-full border border-blue-100 bg-white text-blue-700 shadow-[0_14px_35px_rgba(8,55,111,0.12)] transition hover:bg-blue-600 hover:text-white lg:grid" aria-label="Next testimonial">
             <FontAwesomeIcon aria-hidden="true" icon={faChevronRight} />
           </button>
         </div>
 
-        <div
-          aria-live="polite"
-          className="sr-only"
-        >
-          Showing review {current + 1} of {testimonials.length}
-        </div>
+        <div aria-live="polite" className="sr-only">Showing review {current + 1} of {testimonials.length}</div>
 
-        <div className="mt-10 flex items-center justify-center gap-5 lg:hidden">
-          <button
-            type="button"
-            onClick={prevSlide}
-            className="grid h-11 w-11 place-items-center rounded-full bg-white text-2xl text-blue-600 shadow-lg shadow-blue-100 transition active:scale-95 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-200"
-            aria-label="Previous testimonial"
-          >
-            <FontAwesomeIcon aria-hidden="true" icon={faChevronLeft} />
-          </button>
-
-          <div
-            role="tablist"
-            aria-label="Testimonials navigation"
-            className="flex justify-center gap-3"
-          >
-            {testimonials.map((item, index) => {
-              const isActive = index === current;
-
-              return (
-                <button
-                  key={item.name}
-                  type="button"
-                  role="tab"
-                  aria-selected={isActive}
-                  aria-label={`Go to testimonial ${index + 1} by ${item.name}`}
-                  onClick={() => setCurrent(index)}
-                  className={`h-3 rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-200 ${
-                    isActive
-                      ? "w-9 bg-blue-700"
-                      : "w-3 bg-blue-200 hover:bg-blue-400"
-                  }`}
-                />
-              );
-            })}
-          </div>
-
-          <button
-            type="button"
-            onClick={nextSlide}
-            className="grid h-11 w-11 place-items-center rounded-full bg-white text-2xl text-blue-600 shadow-lg shadow-blue-100 transition active:scale-95 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-200"
-            aria-label="Next testimonial"
-          >
-            <FontAwesomeIcon aria-hidden="true" icon={faChevronRight} />
-          </button>
-        </div>
-
-        <div
-          role="tablist"
-          aria-label="Testimonials navigation"
-          className="mt-10 hidden justify-center gap-3 lg:flex"
-        >
+        <div role="tablist" aria-label="Testimonials navigation" className="mt-9 flex justify-center gap-2.5">
           {testimonials.map((item, index) => {
             const isActive = index === current;
-
             return (
-              <button
-                key={item.name}
-                type="button"
-                role="tab"
-                aria-selected={isActive}
-                aria-label={`Go to testimonial ${index + 1} by ${item.name}`}
-                onClick={() => setCurrent(index)}
-                className={`h-3 rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-200 ${
-                  isActive
-                    ? "w-9 bg-blue-700"
-                    : "w-3 bg-blue-200 hover:bg-blue-400"
-                }`}
-              />
+              <button key={item.name} type="button" role="tab" aria-selected={isActive} aria-label={`Go to testimonial ${index + 1} by ${item.name}`} onClick={() => setCurrent(index)} className={`h-2.5 rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-200 ${isActive ? "w-8 bg-blue-700" : "w-2.5 bg-blue-200 hover:bg-blue-400"}`} />
             );
           })}
         </div>
 
         <FadeUp delay={0.2}>
-          <div className="mt-12 text-center">
+          <div className="mt-10 text-center">
             <HoverButton>
-              <a
-                href={googleReviewsLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="View all Google reviews for Teeth and Gums Care"
-                className="group inline-flex items-center rounded-2xl bg-gradient-to-r from-blue-600 to-blue-900 px-8 py-4 font-black text-white shadow-[0_16px_35px_rgba(37,99,235,.22)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-200"
-              >
-                <Image
-                  src="/images/google.svg"
-                  alt=""
-                  aria-hidden="true"
-                  width={22}
-                  height={22}
-                  
-                  className="mr-2 rounded-full bg-white p-0.5"
-                />
+              <a href={googleReviewsLink} target="_blank" rel="noopener noreferrer" aria-label="View all Google reviews for Teeth and Gums Care" className="group inline-flex items-center rounded-2xl bg-gradient-to-r from-blue-600 to-[#0b3c91] px-8 py-4 font-black text-white shadow-[0_16px_35px_rgba(37,99,235,.22)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-200">
+                <Image src="/images/google.svg" alt="" aria-hidden="true" width={22} height={22} className="mr-2 rounded-full bg-white p-0.5" />
                 View All Google Reviews
               </a>
             </HoverButton>
