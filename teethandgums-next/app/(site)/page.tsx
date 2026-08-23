@@ -1,9 +1,22 @@
+import dynamic from "next/dynamic";
+
 import { createMetadata } from "@/lib/seo";
 
-import DoctorPreviewSection from "@/components/home/DoctorPreviewSection";
-import HeroSection from "@/components/home/HeroSection";
-import PremiumHomeSections from "@/components/home/PremiumHomeSections";
+import AboutSection from "@/components/home/AboutSection";
+import AchievementsSection from "@/components/home/AchievementsSection";
 import ServicesSection from "@/components/home/ServicesSection";
+import ProcessSection from "@/components/home/ProcessSection";
+import WhyChooseUsSection from "@/components/home/WhyChooseUsSection";
+import DoctorPreviewSection from "@/components/home/DoctorPreviewSection";
+import CTASection from "@/components/home/CTASection";
+import EmergencySection from "@/components/home/EmergencySection";
+import HeroSection from "@/components/home/HeroSection";
+
+const FAQSection = dynamic(() => import("@/components/home/FAQSection"));
+
+const TestimonialsSection = dynamic(
+  () => import("@/components/home/TestimonialsSection"),
+);
 
 export const metadata = createMetadata({
   title: "Best Dental Clinic in Jodhpur",
@@ -42,15 +55,28 @@ export default function HomePage() {
         Skip to Main Content
       </a>
 
-      <main
-        id="main-content"
-        tabIndex={-1}
-        className="overflow-x-hidden outline-none"
-      >
+      <main id="main-content" tabIndex={-1} className="overflow-x-hidden outline-none">
         <HeroSection />
-        <PremiumHomeSections />
+
+        <AboutSection />
+
+        <AchievementsSection />
+
         <ServicesSection />
+
+        <ProcessSection />
+
+        <WhyChooseUsSection />
+
         <DoctorPreviewSection />
+
+        <FAQSection />
+
+        <TestimonialsSection />
+
+        <CTASection />
+
+        <EmergencySection />
       </main>
     </>
   );

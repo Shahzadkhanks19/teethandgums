@@ -5,6 +5,7 @@ import Image, { type ImageProps } from "next/image";
 import Link from "next/link";
 
 import { servicesData } from "@/data/services";
+
 import {
   FadeUp,
   HoverButton,
@@ -12,6 +13,10 @@ import {
   StaggerContainer,
   StaggerItem,
 } from "@/components/animations";
+
+/* =========================================
+   TYPES
+========================================= */
 
 interface HomeService {
   title: string;
@@ -29,9 +34,23 @@ interface RawService {
   description?: string;
   shortDescription?: string;
   excerpt?: string;
-  hero?: { description?: string; image?: ImageProps["src"] };
+  hero?: {
+    description?: string;
+    image?: ImageProps["src"];
+  };
 }
 
+/* =========================================
+   HOMEPAGE SERVICE DATA
+========================================= */
+
+/**
+ * The homepage now uses the central modular servicesData source.
+ *
+ * It supports common field names so the component remains compatible
+ * if individual service files use image, heroImage, serviceImage,
+ * description, shortDescription, excerpt, or hero.description.
+ */
 const featuredServices: HomeService[] = (
   servicesData as unknown as RawService[]
 )
@@ -39,12 +58,14 @@ const featuredServices: HomeService[] = (
   .map((service) => ({
     title: service.title,
     slug: service.slug,
+
     image:
       service.image ??
       service.heroImage ??
       service.serviceImage ??
       service.hero?.image ??
       "/images/services/service-placeholder.webp",
+
     description:
       service.shortDescription ??
       service.description ??
@@ -53,103 +74,121 @@ const featuredServices: HomeService[] = (
       `Learn more about ${service.title} treatment at Teeth & Gums Care.`,
   }));
 
+/* =========================================
+   SERVICES SECTION
+========================================= */
+
 export default function ServicesSection() {
   return (
     <section
       id="services"
       aria-labelledby="home-services-title"
-      className="relative overflow-hidden bg-[linear-gradient(180deg,#f8fbff_0%,#ffffff_100%)] py-24 lg:py-32"
+      className="relative overflow-hidden py-20 lg:py-28"
     >
-      <div aria-hidden="true" className="pointer-events-none absolute -right-28 top-28 h-96 w-96 rounded-full bg-blue-100/45 blur-3xl" />
-      <div aria-hidden="true" className="pointer-events-none absolute -left-32 bottom-12 h-80 w-80 rounded-full bg-blue-50 blur-3xl" />
+      {/* Decorative background glow */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -right-24 top-20 h-72 w-72 rounded-full bg-blue-100/50 blur-3xl"
+      />
 
-      <div className="relative z-10 mx-auto max-w-[1380px] px-4 sm:px-6 lg:px-8">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -left-28 bottom-10 h-80 w-80 rounded-full bg-cyan-100/40 blur-3xl"
+      />
+
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        {/* Section heading */}
         <FadeUp>
-          <div className="flex flex-col gap-7 lg:flex-row lg:items-end lg:justify-between">
-            <div className="max-w-3xl">
-              <span className="inline-flex rounded-full border border-blue-100 bg-white px-4 py-2 text-xs font-black uppercase tracking-[0.17em] text-blue-700 shadow-sm">
-                Our Dental Services
-              </span>
-              <h2
-                id="home-services-title"
-                className="mt-5 text-4xl font-black leading-[1.04] tracking-[-0.045em] text-[#08376f] md:text-5xl xl:text-[60px]"
-              >
-                Complete Care for Every
-                <span className="block text-blue-600">Stage of Your Smile.</span>
-              </h2>
-              <p className="mt-5 max-w-2xl text-lg leading-8 text-slate-500">
-                From preventive care to advanced restorative and cosmetic dentistry, explore treatments designed around precision, comfort, and lasting results.
-              </p>
-            </div>
+          <div className="mx-auto max-w-3xl text-center">
+            <span className="inline-flex rounded-full bg-blue-50 px-5 py-2 text-sm font-extrabold text-blue-600 ring-1 ring-blue-100">
+              Our Dental Services
+            </span>
 
-            <HoverButton>
-              <Link
-                prefetch={false}
-                href="/services"
-                className="group inline-flex items-center self-start rounded-2xl border border-blue-200 bg-white px-6 py-3.5 font-black text-[#08376f] shadow-sm transition hover:bg-blue-50 lg:self-auto"
-              >
-                View All Services
-                <FontAwesomeIcon aria-hidden="true" icon={faArrowRightLong} className="ml-3 text-blue-600 transition-transform group-hover:translate-x-1" />
-              </Link>
-            </HoverButton>
+            <h2
+              id="home-services-title"
+              className="mt-5 text-4xl font-black leading-tight text-slate-900 md:text-5xl"
+            >
+              Complete Care For Every Smile
+            </h2>
+
+            <p className="mx-auto mt-5 max-w-2xl leading-8 text-slate-500">
+              Premium dental treatments designed for comfort, safety, and
+              long-lasting oral health.
+            </p>
           </div>
         </FadeUp>
 
-        <StaggerContainer className="mt-14 grid auto-rows-[minmax(330px,auto)] grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4">
-          {featuredServices.map((service, index) => {
-            const featured = index === 0 || index === 1;
+        {/* Services grid */}
+        <StaggerContainer className="mt-14 grid grid-cols-1 items-stretch gap-7 sm:grid-cols-2 lg:grid-cols-4">
+          {featuredServices.map((service, index) => (
+            <StaggerItem key={service.slug} className="h-full">
+              <HoverCard className="h-full">
+                <article className="group relative flex h-full flex-col overflow-hidden rounded-[30px] border border-blue-100 bg-white shadow-[0_18px_50px_rgba(37,99,235,0.10)] transition duration-300 hover:border-blue-200 hover:shadow-[0_28px_80px_rgba(37,99,235,0.16)]">
+                  {/* Top hover accent */}
+                  <div
+                    aria-hidden="true"
+                    className="absolute left-0 top-0 z-20 h-1.5 w-full bg-gradient-to-r from-blue-600 to-cyan-400 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                  />
 
-            return (
-              <StaggerItem
-                key={service.slug}
-                className={featured ? "lg:col-span-2" : ""}
-              >
-                <HoverCard className="h-full">
-                  <article className="group relative h-full min-h-[330px] overflow-hidden rounded-[30px] border border-blue-100 bg-white shadow-[0_18px_50px_rgba(8,55,111,0.09)] transition-all duration-300 hover:-translate-y-1 hover:border-blue-200 hover:shadow-[0_30px_75px_rgba(37,99,235,0.15)]">
-                    <div className="absolute inset-0">
+                  {/* Service image */}
+                  <div className="relative aspect-square overflow-hidden bg-gradient-to-br from-blue-50 via-white to-cyan-50">
                       <Image
                         src={service.image}
                         alt={`Professional ${service.title} treatment at Teeth & Gums Care`}
                         fill
-                        sizes={featured ? "(max-width: 1023px) calc(100vw - 32px), 50vw" : "(max-width: 1023px) calc(50vw - 34px), 25vw"}
-                        quality={70}
+                        sizes="(max-width: 639px) calc(100vw - 32px), (max-width: 1023px) calc(50vw - 34px), 292px"
+                        quality={65}
                         loading={index === 0 ? "eager" : "lazy"}
                         fetchPriority={index === 0 ? "high" : "low"}
                         decoding="async"
-                        className={`transition-transform duration-700 group-hover:scale-[1.04] ${featured ? "object-cover" : "object-contain p-8"}`}
+                        className="object-contain p-2 transition-transform duration-500 ease-out motion-safe:group-hover:scale-[1.03]"
                       />
-                      <div className={`absolute inset-0 ${featured ? "bg-gradient-to-t from-[#062d5c]/95 via-[#08376f]/45 to-transparent" : "bg-gradient-to-t from-white via-white/75 to-white/15"}`} />
-                    </div>
+                  </div>
 
-                    <div className={`relative z-10 flex h-full min-h-[330px] flex-col justify-end p-6 ${featured ? "text-white sm:p-8" : "text-[#08376f]"}`}>
-                      <span className={`mb-4 inline-flex self-start rounded-full px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.14em] ${featured ? "border border-white/20 bg-white/10 text-blue-100 backdrop-blur" : "border border-blue-100 bg-blue-50 text-blue-700"}`}>
-                        Dental Care
-                      </span>
+                  {/* Card content */}
+                  <div className="flex flex-1 flex-col p-6">
+                    <h3 className="min-h-[56px] text-xl font-black leading-tight text-slate-900">
+                      {service.title}
+                    </h3>
 
-                      <h3 className={`max-w-[520px] text-2xl font-black leading-tight tracking-[-0.025em] ${featured ? "sm:text-3xl" : ""}`}>
-                        {service.title}
-                      </h3>
+                    <p className="mt-4 flex-1 leading-7 text-slate-500">
+                      {service.description}
+                    </p>
 
-                      <p className={`mt-3 max-w-[560px] text-sm leading-7 ${featured ? "text-white/80" : "text-slate-500"}`}>
-                        {service.description}
-                      </p>
-
-                      <Link
-                        prefetch={false}
+                    <HoverButton>
+                      <Link prefetch={false}
                         href={`/services/${service.slug}`}
                         aria-label={`Learn more about ${service.title}`}
-                        className={`mt-5 inline-flex items-center self-start text-sm font-black transition ${featured ? "text-white hover:text-blue-100" : "text-blue-700 hover:text-[#08376f]"}`}
+                        className="mt-6 inline-flex self-start items-center rounded-full bg-blue-50 px-5 py-3 text-sm font-black text-blue-600 transition-colors duration-300 hover:bg-blue-600 hover:text-white focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-200"
                       >
-                        Explore Treatment
-                        <FontAwesomeIcon aria-hidden="true" icon={faArrowRightLong} className="ml-2 transition-transform group-hover:translate-x-1" />
+                        Learn More about {service.title}
+
+                        <FontAwesomeIcon aria-hidden="true" icon={faArrowRightLong} className="ms-2 transition-transform duration-300 group-hover:translate-x-1" />
                       </Link>
-                    </div>
-                  </article>
-                </HoverCard>
-              </StaggerItem>
-            );
-          })}
+                    </HoverButton>
+                  </div>
+                </article>
+              </HoverCard>
+            </StaggerItem>
+          ))}
         </StaggerContainer>
+
+        {/* View all services */}
+        <FadeUp delay={0.2}>
+          <div className="mt-14 text-center">
+            <HoverButton>
+              <Link prefetch={false}
+                href="/services"
+                aria-label="View all dental services"
+                className="inline-flex items-center rounded-full bg-gradient-to-r from-blue-600 to-blue-900 px-9 py-4 font-black text-white shadow-[0_16px_35px_rgba(37,99,235,0.22)] transition-shadow duration-300 hover:shadow-[0_22px_45px_rgba(37,99,235,0.30)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-200"
+              >
+                View More Services
+
+                <FontAwesomeIcon aria-hidden="true" icon={faArrowRightLong} className="ms-3" />
+              </Link>
+            </HoverButton>
+          </div>
+        </FadeUp>
       </div>
     </section>
   );
