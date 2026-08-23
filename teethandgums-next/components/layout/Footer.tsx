@@ -145,11 +145,7 @@ export default function Footer() {
 
         <div className="flex flex-col items-center justify-between gap-4 border-t border-white/10 py-6 text-center text-sm text-blue-50/65 md:flex-row md:text-left">
           <p>© {currentYear} Teeth and Gums Care. All Rights Reserved.</p>
-          <div className="flex flex-wrap justify-center gap-x-5 gap-y-2">
-            <Link prefetch={false} href="/privacy" className="transition hover:text-white">Privacy Policy</Link>
-            <Link prefetch={false} href="/terms" className="transition hover:text-white">Terms & Conditions</Link>
-            <Link prefetch={false} href="/disclaimer" className="transition hover:text-white">Disclaimer</Link>
-          </div>
+          <p className="text-blue-100/70">Healthy smiles. Thoughtful care. Lasting confidence.</p>
           <p>
             Designed & Developed by{" "}
             <a href="https://wa.me/917014854192" target="_blank" rel="noopener noreferrer" className="font-black text-blue-200 transition hover:text-white">Shahzad Khan</a>
