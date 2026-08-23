@@ -74,22 +74,24 @@ export default function Header() {
       <header
         ref={headerRef}
         className={`fixed inset-x-0 top-0 z-[99999] w-full transition-all duration-300 ${
-          scrolled ? "bg-white/95 shadow-[0_18px_55px_rgba(8,55,111,0.14)] backdrop-blur-xl" : "bg-white"
+          scrolled
+            ? "bg-white/95 shadow-[0_18px_50px_rgba(8,55,111,0.12)] backdrop-blur-2xl"
+            : "bg-white"
         }`}
       >
         <div
           className={`overflow-hidden bg-gradient-to-r from-[#08376f] via-[#0b3c91] to-blue-700 text-white transition-all duration-300 ${
-            scrolled ? "max-h-0 py-0 opacity-0" : "max-h-[70px] py-2.5 opacity-100"
+            scrolled ? "max-h-0 py-0 opacity-0" : "max-h-[54px] py-2 opacity-100"
           }`}
         >
-          <div className="mx-auto max-w-[1560px] px-4 sm:px-6 lg:px-8 xl:px-10">
+          <div className="mx-auto max-w-[1480px] px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between gap-4 text-[11px] sm:text-xs lg:text-[13px]">
-              <div className="flex min-w-0 items-center gap-4 lg:gap-6">
+              <div className="flex min-w-0 items-center gap-5">
                 <div className="flex min-w-0 items-center gap-2">
                   <FontAwesomeIcon aria-hidden="true" icon={faLocationDot} className="shrink-0 text-blue-200" />
                   <span className="truncate">E-32, Shastri Nagar, Jodhpur</span>
                 </div>
-                <div className="hidden h-4 w-px bg-white/25 md:block" />
+                <span className="hidden h-4 w-px bg-white/25 md:block" />
                 <div className="hidden items-center gap-2 md:flex">
                   <FontAwesomeIcon aria-hidden="true" icon={faClock} className="text-blue-200" />
                   <span>Mon–Sat 10am–3pm & 5:30pm–8:30pm · Sun 10am–3pm</span>
@@ -97,7 +99,7 @@ export default function Header() {
               </div>
 
               <div className="flex shrink-0 items-center gap-3 lg:gap-4">
-                <a href="tel:+919829824356" itemProp="telephone" className="flex items-center gap-2 font-bold">
+                <a href="tel:+919829824356" itemProp="telephone" className="flex items-center gap-2 font-extrabold transition hover:text-blue-100">
                   <FontAwesomeIcon aria-hidden="true" icon={faPhone} className="text-blue-200" />
                   <span className="hidden sm:inline">+91 98298 24356</span>
                 </a>
@@ -128,11 +130,11 @@ export default function Header() {
           </div>
         </div>
 
-        <nav className="border-b border-blue-100/80 bg-white/95 backdrop-blur-xl">
-          <div className="mx-auto max-w-[1560px] px-4 sm:px-6 lg:px-8 xl:px-10">
+        <nav className="border-b border-blue-100/80 bg-white/95 backdrop-blur-2xl">
+          <div className="mx-auto max-w-[1480px] px-4 sm:px-6 lg:px-8">
             <div
               className={`flex flex-wrap items-center justify-between gap-3 transition-all duration-300 lg:flex-nowrap ${
-                scrolled ? "min-h-[72px] py-2" : "min-h-[86px] py-2.5"
+                scrolled ? "min-h-[70px] py-2" : "min-h-[82px] py-2.5"
               }`}
             >
               <Link
@@ -140,26 +142,27 @@ export default function Header() {
                 href="/"
                 scroll
                 onClick={() => setMenuOpen(false)}
-                className="flex min-w-0 flex-1 items-center gap-3 lg:flex-none"
+                className="flex min-w-0 items-center gap-3 lg:shrink-0"
               >
                 <div
-                  className={`relative shrink-0 overflow-hidden rounded-2xl border border-blue-100 bg-white shadow-[0_12px_34px_rgba(37,99,235,0.13)] transition-all duration-300 ${
-                    scrolled ? "h-12 w-12 lg:h-[54px] lg:w-[54px]" : "h-[54px] w-[54px] lg:h-[64px] lg:w-[64px]"
+                  className={`relative shrink-0 overflow-hidden rounded-2xl border border-blue-100 bg-white shadow-[0_10px_28px_rgba(37,99,235,0.11)] transition-all duration-300 ${
+                    scrolled ? "h-11 w-11 lg:h-[50px] lg:w-[50px]" : "h-12 w-12 lg:h-[58px] lg:w-[58px]"
                   }`}
                 >
                   <Image
                     src="/images/logo/logo.webp"
                     alt="Teeth and Gums Care"
                     fill
-                    sizes="64px"
+                    sizes="58px"
                     className="object-cover"
                   />
                 </div>
+
                 <div className="min-w-0">
-                  <div className="truncate text-[17px] font-black tracking-[-0.02em] text-[#08376f] sm:text-xl lg:text-[22px]">
+                  <div className="max-w-[205px] truncate text-[17px] font-black tracking-[-0.025em] text-[#08376f] sm:max-w-none sm:text-xl xl:text-[21px]">
                     Teeth and Gums Care
                   </div>
-                  <div className="mt-0.5 text-[9px] font-extrabold uppercase tracking-[0.17em] text-blue-600 sm:text-[10px]">
+                  <div className="mt-0.5 hidden text-[9px] font-extrabold uppercase tracking-[0.16em] text-blue-600 sm:block xl:text-[10px]">
                     Advanced Dental Care · Jodhpur
                   </div>
                 </div>
@@ -178,8 +181,8 @@ export default function Header() {
                 <span className={`h-[2px] w-[22px] rounded-full bg-[#0b3c91] transition ${menuOpen ? "-translate-y-[7px] -rotate-45" : ""}`} />
               </button>
 
-              <div className="hidden flex-1 items-center justify-end gap-4 xl:gap-6 lg:flex">
-                <ul className="flex list-none items-center gap-0.5 p-0 xl:gap-1">
+              <div className="hidden min-w-0 flex-1 items-center justify-end gap-3 lg:flex xl:gap-5">
+                <ul className="flex min-w-0 list-none items-center gap-0.5 p-0">
                   {navLinks.map((link) => {
                     const isActive = pathname === link.href;
                     return (
@@ -188,7 +191,7 @@ export default function Header() {
                           prefetch={false}
                           href={link.href}
                           scroll
-                          className={`relative inline-flex items-center justify-center rounded-xl px-3 py-2.5 text-sm font-extrabold transition-all duration-300 xl:px-4 ${
+                          className={`relative inline-flex items-center justify-center rounded-xl px-2.5 py-2.5 text-[13px] font-extrabold transition-all duration-300 xl:px-3.5 xl:text-sm ${
                             isActive
                               ? "bg-blue-50 text-blue-700 shadow-[inset_0_0_0_1px_rgba(37,99,235,0.08)]"
                               : "text-slate-700 hover:bg-blue-50 hover:text-blue-700"
@@ -202,26 +205,15 @@ export default function Header() {
                   })}
                 </ul>
 
-                <div className="flex shrink-0 items-center gap-3 border-l border-blue-100 pl-4 xl:pl-6">
-                  <a href="tel:+919829824356" className="hidden items-center gap-3 xl:flex">
-                    <span className="grid h-11 w-11 place-items-center rounded-full border border-blue-100 bg-blue-50 text-blue-700">
-                      <FontAwesomeIcon aria-hidden="true" icon={faPhone} />
-                    </span>
-                    <span>
-                      <span className="block text-[10px] font-bold uppercase tracking-wide text-slate-400">Call us now</span>
-                      <span className="text-sm font-black text-[#08376f]">+91 98298 24356</span>
-                    </span>
-                  </a>
-                  <Link
-                    prefetch={false}
-                    href="/book-appointment"
-                    scroll
-                    className="inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-blue-600 to-[#0b3c91] px-5 py-3 text-sm font-black text-white shadow-[0_14px_32px_rgba(37,99,235,0.26)] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_20px_40px_rgba(37,99,235,0.34)] xl:px-6"
-                  >
-                    <FontAwesomeIcon aria-hidden="true" icon={faCalendarCheck} />
-                    Book Appointment
-                  </Link>
-                </div>
+                <Link
+                  prefetch={false}
+                  href="/book-appointment"
+                  scroll
+                  className="inline-flex shrink-0 items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-blue-600 to-[#0b3c91] px-4 py-3 text-[13px] font-black text-white shadow-[0_14px_30px_rgba(37,99,235,0.24)] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_20px_38px_rgba(37,99,235,0.32)] xl:px-5 xl:text-sm"
+                >
+                  <FontAwesomeIcon aria-hidden="true" icon={faCalendarCheck} />
+                  <span>Book Appointment</span>
+                </Link>
               </div>
 
               <div
