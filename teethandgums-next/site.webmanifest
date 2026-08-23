@@ -1,0 +1,34 @@
+{
+  "id": "/",
+  "name": "Teeth and Gums Care - Dental Clinic Jodhpur",
+  "short_name": "Teeth & Gums",
+  "description": "Advanced dental clinic in Jodhpur offering dental implants, root canal treatment, smile designing, cosmetic dentistry, orthodontics, and complete oral healthcare.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#0d6efd",
+  "background_color": "#ffffff",
+  "lang": "en-IN",
+  "dir": "ltr",
+  "categories": [
+    "medical",
+    "health",
+    "dentist"
+  ],
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "/web-app-manifest-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/web-app-manifest-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

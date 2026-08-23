@@ -1,0 +1,216 @@
+@import "tailwindcss";
+
+@plugin "@tailwindcss/typography";
+
+/*
+ * Tailwind v4 theme animations used by layout components.
+ * Component-specific effects now live entirely in Tailwind utility classes.
+ */
+@theme {
+  --animate-nav-drop: nav-drop 0.3s ease both;
+  --animate-footer-orb: footer-orb 7s ease-in-out infinite;
+  --animate-loading-bar: loading-bar 1.4s ease-in-out infinite;
+  --animate-navigation-progress: navigation-progress 0.9s ease-in-out infinite;
+
+  @keyframes nav-drop {
+    from {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes footer-orb {
+    0%,
+    100% {
+      transform: translateY(0) scale(1);
+    }
+
+    50% {
+      transform: translateY(-16px) scale(1.04);
+    }
+  }
+
+  @keyframes loading-bar {
+    0% {
+      transform: translateX(-140%);
+    }
+
+    50% {
+      transform: translateX(120%);
+    }
+
+    100% {
+      transform: translateX(260%);
+    }
+  }
+
+  @keyframes navigation-progress {
+    0% {
+      transform: translateX(-120%);
+    }
+
+    50% {
+      transform: translateX(90%);
+    }
+
+    100% {
+      transform: translateX(240%);
+    }
+  }
+}
+
+@layer base {
+  html {
+    min-height: 100%;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    min-height: 100%;
+    overflow-x: hidden;
+    background: #ffffff;
+    color: #0f172a;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  button,
+  [role="button"] {
+    cursor: pointer;
+  }
+
+  :focus-visible {
+    outline-offset: 3px;
+  }
+
+  ::selection {
+    background: rgb(37 99 235 / 20%);
+    color: #0f172a;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      scroll-behavior: auto !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+
+@layer utilities {
+  .home-deferred-content {
+    content-visibility: auto;
+    contain-intrinsic-size: 5000px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+html.site-preloader-active,
+html.site-preloader-active body {
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+.site-preloader-logo-wrap {
+  animation: site-preloader-float 1.8s ease-in-out infinite;
+}
+
+.site-preloader-copy {
+  animation: site-preloader-fade-up 0.7s ease-out both;
+}
+
+.site-preloader-progress {
+  width: 38%;
+  animation: site-preloader-progress 1.05s ease-in-out infinite;
+}
+
+.site-preloader-dot {
+  animation: site-preloader-dot 0.9s ease-in-out infinite alternate;
+}
+
+@keyframes site-preloader-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes site-preloader-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes site-preloader-progress {
+  0% {
+    transform: translateX(-125%);
+  }
+
+  50% {
+    transform: translateX(90%);
+  }
+
+  100% {
+    transform: translateX(260%);
+  }
+}
+
+@keyframes site-preloader-dot {
+  from {
+    opacity: 0.35;
+    transform: translateY(0) scale(0.85);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(-3px) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-preloader-logo-wrap,
+  .site-preloader-copy,
+  .site-preloader-progress,
+  .site-preloader-dot {
+    animation: none;
+  }
+
+  .site-preloader-progress {
+    width: 100%;
+  }
+}

@@ -1,0 +1,3 @@
+# Publish scheduled blog posts every five minutes.
+# Replace /var/www/teethandgums-next with the actual project path.
+*/5 * * * * cd /var/www/teethandgums-next && /usr/bin/node scripts/publish-due-blogs.mjs >> /var/log/teethandgums-blog-cron.log 2>&1

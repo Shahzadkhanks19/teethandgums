@@ -1,0 +1,43 @@
+/* =====================================
+   ADMIN AUTH ACCESSIBILITY & PERFORMANCE
+===================================== */
+
+.admin-auth-scope {
+  min-height: 100dvh;
+  isolation: isolate;
+}
+
+.admin-auth-scope input,
+.admin-auth-scope button,
+.admin-auth-scope a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.admin-auth-scope input {
+  font: inherit;
+}
+
+.admin-auth-scope button {
+  font: inherit;
+}
+
+.admin-auth-scope :focus-visible {
+  outline: none;
+}
+
+@supports not (backdrop-filter: blur(1px)) {
+  .admin-auth-scope .backdrop-blur-xl {
+    background-color: rgba(255, 255, 255, 0.98);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .admin-auth-scope *,
+  .admin-auth-scope *::before,
+  .admin-auth-scope *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
