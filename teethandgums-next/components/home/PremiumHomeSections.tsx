@@ -1,8 +1,10 @@
 import type { ReactNode } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRightLong, faBolt, faCalendarCheck, faChildReaching, faClock, faFaceSmile, faLocationDot, faPhone, faShieldHeart, faStar, faTooth } from "@fortawesome/free-solid-svg-icons";
+import { faArrowRightLong, faBolt, faCalendarCheck, faChildReaching, faClock, faFaceSmile, faLocationDot, faPhone, faShieldHeart, faTooth } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 import Link from "next/link";
+
+import GoogleReviewsSlider from "@/components/home/GoogleReviewsSlider";
 
 const visitReasons = [
   { icon: faBolt, title: "Something hurts", text: "Toothache, sensitivity, swelling or a dental emergency.", href: "/services" },
@@ -12,32 +14,65 @@ const visitReasons = [
   { icon: faChildReaching, title: "Care for my family", text: "Comfortable dental visits for different ages and needs.", href: "/book-appointment" },
 ];
 
-const reviews = [
-  { name: "Lovekush Upadhyay", initial: "L", text: "The treatment quality is excellent, the explanation was clear, and the entire experience felt comfortable and professional." },
-  { name: "Pramod Khanna", initial: "P", text: "Knowledgeable and meticulous doctors made the root canal and implant process smooth and reassuring." },
-  { name: "Harshraj Singh", initial: "H", text: "A warm, welcoming and highly professional clinic where every step of the treatment was explained clearly." },
-];
-
-function GoogleG({ className = "h-5 w-5" }: { className?: string }) {
-  return <svg className={className} viewBox="0 0 24 24" aria-label="Google" role="img"><path fill="#4285F4" d="M21.6 12.23c0-.71-.06-1.4-.18-2.07H12v3.92h5.38a4.6 4.6 0 0 1-2 3.02v2.54h3.24c1.9-1.75 2.98-4.33 2.98-7.41Z"/><path fill="#34A853" d="M12 22c2.7 0 4.97-.9 6.62-2.36l-3.24-2.54c-.9.6-2.05.96-3.38.96-2.61 0-4.82-1.76-5.61-4.13H3.04v2.62A10 10 0 0 0 12 22Z"/><path fill="#FBBC05" d="M6.39 13.93A6.02 6.02 0 0 1 6.08 12c0-.67.12-1.32.31-1.93V7.45H3.04A10 10 0 0 0 2 12c0 1.61.39 3.14 1.04 4.55l3.35-2.62Z"/><path fill="#EA4335" d="M12 5.94c1.47 0 2.79.5 3.82 1.5l2.87-2.87A9.63 9.63 0 0 0 12 2a10 10 0 0 0-8.96 5.45l3.35 2.62C7.18 7.7 9.39 5.94 12 5.94Z"/></svg>;
+function Label({ children }: { children: ReactNode }) {
+  return <span className="text-[11px] font-black uppercase tracking-[0.2em] text-blue-600">{children}</span>;
 }
 
-function Label({ children }: { children: ReactNode }) { return <span className="text-[11px] font-black uppercase tracking-[0.2em] text-blue-600">{children}</span>; }
-
 export default function PremiumHomeSections() {
-  return <div className="bg-white text-slate-900">
-    <section className="relative overflow-hidden border-b border-slate-100 py-20 sm:py-24 lg:py-28" aria-labelledby="reason-title">
-      <div className="pointer-events-none absolute -right-48 top-10 h-96 w-96 rounded-full bg-blue-50 blur-3xl" aria-hidden="true" />
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"><div className="grid gap-10 lg:grid-cols-[0.72fr_1.28fr] lg:gap-16">
-        <div className="lg:sticky lg:top-28 lg:self-start"><Label>Start with you</Label><h2 id="reason-title" className="mt-4 text-4xl font-black leading-[1.02] tracking-[-0.045em] text-[#08376f] sm:text-5xl lg:text-6xl">What brings you in today?</h2><p className="mt-5 max-w-md text-base leading-8 text-slate-600 sm:text-lg">You do not need to know the name of a treatment. Start with what you are experiencing or what you want to change.</p><Link href="/book-appointment" prefetch={false} className="mt-8 inline-flex items-center rounded-full bg-[#08376f] px-6 py-3.5 font-black text-white transition hover:bg-blue-700">Talk to a dentist<FontAwesomeIcon icon={faArrowRightLong} aria-hidden="true" className="ml-3" /></Link></div>
-        <div className="divide-y divide-slate-200 border-y border-slate-200">{visitReasons.map((reason,index)=><Link key={reason.title} href={reason.href} prefetch={false} className="group grid gap-4 py-6 sm:grid-cols-[64px_1fr_44px] sm:items-center sm:py-7"><span className="grid h-12 w-12 place-items-center rounded-full bg-blue-50 text-blue-700 transition group-hover:bg-blue-600 group-hover:text-white"><FontAwesomeIcon icon={reason.icon} aria-hidden="true" /></span><div><div className="flex items-baseline gap-3"><span className="text-[10px] font-black tracking-[0.18em] text-slate-400">0{index+1}</span><h3 className="text-xl font-black text-[#08376f] sm:text-2xl">{reason.title}</h3></div><p className="mt-2 text-sm leading-7 text-slate-500 sm:text-base">{reason.text}</p></div><span className="hidden h-11 w-11 place-items-center rounded-full border border-slate-200 text-blue-700 transition group-hover:translate-x-1 group-hover:bg-blue-50 sm:grid"><FontAwesomeIcon icon={faArrowRightLong} aria-hidden="true" /></span></Link>)}</div>
-      </div></div>
-    </section>
+  return (
+    <div className="bg-white text-slate-900">
+      <section className="relative overflow-hidden border-b border-slate-100 py-20 sm:py-24 lg:py-28" aria-labelledby="reason-title">
+        <div className="pointer-events-none absolute -right-48 top-10 h-96 w-96 rounded-full bg-blue-50 blur-3xl" aria-hidden="true" />
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid gap-10 lg:grid-cols-[0.72fr_1.28fr] lg:gap-16">
+            <div className="lg:sticky lg:top-28 lg:self-start">
+              <Label>Start with you</Label>
+              <h2 id="reason-title" className="mt-4 text-4xl font-black leading-[1.02] tracking-[-0.045em] text-[#08376f] sm:text-5xl lg:text-6xl">What brings you in today?</h2>
+              <p className="mt-5 max-w-md text-base leading-8 text-slate-600 sm:text-lg">You do not need to know the name of a treatment. Start with what you are experiencing or what you want to change.</p>
+              <Link href="/book-appointment" prefetch={false} className="mt-8 inline-flex items-center rounded-full bg-[#08376f] px-6 py-3.5 font-black text-white transition hover:bg-blue-700">Talk to a dentist<FontAwesomeIcon icon={faArrowRightLong} aria-hidden="true" className="ml-3" /></Link>
+            </div>
+            <div className="divide-y divide-slate-200 border-y border-slate-200">
+              {visitReasons.map((reason, index) => (
+                <Link key={reason.title} href={reason.href} prefetch={false} className="group grid gap-4 py-6 sm:grid-cols-[64px_1fr_44px] sm:items-center sm:py-7">
+                  <span className="grid h-12 w-12 place-items-center rounded-full bg-blue-50 text-blue-700 transition group-hover:bg-blue-600 group-hover:text-white"><FontAwesomeIcon icon={reason.icon} aria-hidden="true" /></span>
+                  <div><div className="flex items-baseline gap-3"><span className="text-[10px] font-black tracking-[0.18em] text-slate-400">0{index + 1}</span><h3 className="text-xl font-black text-[#08376f] sm:text-2xl">{reason.title}</h3></div><p className="mt-2 text-sm leading-7 text-slate-500 sm:text-base">{reason.text}</p></div>
+                  <span className="hidden h-11 w-11 place-items-center rounded-full border border-slate-200 text-blue-700 transition group-hover:translate-x-1 group-hover:bg-blue-50 sm:grid"><FontAwesomeIcon icon={faArrowRightLong} aria-hidden="true" /></span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
 
-    <section className="bg-[#071f3d] py-20 text-white sm:py-24 lg:py-28" aria-labelledby="inside-title"><div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"><div className="grid gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-end"><div><Label>Inside Teeth &amp; Gums Care</Label><h2 id="inside-title" className="mt-4 text-4xl font-black leading-[1.03] tracking-[-0.045em] sm:text-5xl lg:text-6xl">A clinic you can feel confident walking into.</h2><p className="mt-5 max-w-xl text-base leading-8 text-blue-100/70 sm:text-lg">Clean spaces, careful diagnosis and a team that explains before it treats.</p></div><div className="grid grid-cols-2 gap-3 sm:gap-4"><div className="relative col-span-2 aspect-[16/8] overflow-hidden rounded-[28px] bg-white/5"><Image src="/images/common/interior.webp" alt="Interior of Teeth and Gums Care dental clinic" fill sizes="(max-width:1023px) 100vw,58vw" className="object-cover" /></div><div className="relative aspect-square overflow-hidden rounded-[28px] bg-white/5"><Image src="/images/common/about.webp" alt="Dental care at Teeth and Gums Care" fill sizes="(max-width:1023px) 50vw,29vw" className="object-cover" /></div><div className="flex aspect-square flex-col justify-between rounded-[28px] bg-blue-600 p-5 sm:p-7"><FontAwesomeIcon icon={faTooth} aria-hidden="true" className="w-8 text-blue-100"/><div><div className="text-4xl font-black sm:text-5xl">25+</div><p className="mt-2 text-xs font-bold uppercase tracking-[0.15em] text-blue-100">Years of dental experience</p></div></div></div></div></div></section>
+      <section className="bg-[#071f3d] py-20 text-white sm:py-24 lg:py-28" aria-labelledby="inside-title">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-end">
+            <div>
+              <Label>Inside Teeth &amp; Gums Care</Label>
+              <h2 id="inside-title" className="mt-4 text-4xl font-black leading-[1.03] tracking-[-0.045em] sm:text-5xl lg:text-6xl">A clinic you can feel confident walking into.</h2>
+              <p className="mt-5 max-w-xl text-base leading-8 text-blue-100/70 sm:text-lg">Clean spaces, careful diagnosis and a team that explains before it treats.</p>
+            </div>
+            <div className="grid grid-cols-2 gap-3 sm:gap-4">
+              <div className="relative col-span-2 aspect-[16/8] overflow-hidden rounded-[28px] bg-white/5"><Image src="/images/common/interior.webp" alt="Interior of Teeth and Gums Care dental clinic" fill sizes="(max-width:1023px) 100vw,58vw" className="object-cover" /></div>
+              <div className="relative aspect-square overflow-hidden rounded-[28px] bg-white/5"><Image src="/images/common/about.webp" alt="Teeth and Gums Care clinic exterior" fill sizes="(max-width:1023px) 50vw,29vw" className="object-cover" /></div>
+              <div className="relative aspect-square overflow-hidden rounded-[28px] bg-white/5"><Image src="/images/common/slider2.webp" alt="Patient care at Teeth and Gums Care" fill sizes="(max-width:1023px) 50vw,29vw" className="object-cover" /></div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-    <section className="py-20 sm:py-24 lg:py-28" aria-labelledby="reviews-title"><div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"><div className="flex flex-col gap-7 border-b border-slate-200 pb-9 lg:flex-row lg:items-end lg:justify-between"><div><div className="flex items-center gap-3"><GoogleG className="h-8 w-8"/><Label>Google Reviews</Label></div><h2 id="reviews-title" className="mt-5 text-4xl font-black tracking-[-0.04em] text-[#08376f] sm:text-5xl">Patients say it better.</h2></div><div className="flex items-center gap-4 rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm"><div className="text-3xl font-black">4.9</div><div><div className="flex gap-1 text-[#fbbc04]" aria-label="4.9 out of 5 stars">{[0,1,2,3,4].map(s=><FontAwesomeIcon key={s} icon={faStar} className="text-sm" aria-hidden="true"/>)}</div><div className="mt-1 flex items-center gap-1.5 text-xs font-semibold text-slate-500"><GoogleG className="h-3.5 w-3.5"/> Google rating</div></div></div></div><div className="mt-8 grid gap-5 lg:grid-cols-3">{reviews.map(review=><article key={review.name} className="flex min-h-[290px] flex-col rounded-[22px] border border-slate-200 bg-white p-6 shadow-[0_8px_30px_rgba(15,23,42,0.05)]"><div className="flex items-start justify-between gap-4"><div className="flex min-w-0 items-center gap-3"><span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-blue-600 text-sm font-black text-white">{review.initial}</span><div className="min-w-0"><h3 className="truncate text-sm font-bold">{review.name}</h3><p className="mt-0.5 text-xs text-slate-500">Google review</p></div></div><GoogleG className="h-6 w-6 shrink-0"/></div><div className="mt-5 flex gap-1 text-[#fbbc04]" aria-label="5 out of 5 stars">{[0,1,2,3,4].map(s=><FontAwesomeIcon key={s} icon={faStar} className="text-sm" aria-hidden="true"/>)}</div><p className="mt-5 flex-1 text-[15px] leading-7 text-slate-700">“{review.text}”</p><div className="mt-5 border-t border-slate-100 pt-4 text-xs font-semibold text-slate-400">Posted publicly on Google</div></article>)}</div></div></section>
+      <GoogleReviewsSlider />
 
-    <section className="pb-20 sm:pb-24 lg:pb-28" aria-labelledby="visit-title"><div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"><div className="overflow-hidden rounded-[34px] bg-[#f4f8ff] ring-1 ring-blue-100"><div className="grid lg:grid-cols-[1.1fr_0.9fr]"><div className="p-6 sm:p-9 lg:p-12"><Label>Plan your visit</Label><h2 id="visit-title" className="mt-4 max-w-2xl text-4xl font-black leading-[1.04] tracking-[-0.04em] text-[#08376f] sm:text-5xl">Ready when you are.</h2><p className="mt-5 max-w-xl leading-8 text-slate-600">Book a consultation and tell us what is bothering you. We will take it from there.</p><div className="mt-8 flex flex-col gap-3 sm:flex-row"><Link href="/book-appointment" prefetch={false} className="inline-flex items-center justify-center rounded-full bg-blue-600 px-6 py-4 font-black text-white transition hover:bg-[#08376f]"><FontAwesomeIcon icon={faCalendarCheck} className="mr-2" aria-hidden="true"/>Book Appointment</Link><a href="tel:+919829824356" className="inline-flex items-center justify-center rounded-full border border-blue-200 bg-white px-6 py-4 font-black text-[#08376f]"><FontAwesomeIcon icon={faPhone} className="mr-2" aria-hidden="true"/>Call Clinic</a></div></div><div className="grid gap-px bg-blue-100 sm:grid-cols-3 lg:grid-cols-1"><div className="bg-white p-6"><FontAwesomeIcon icon={faLocationDot} className="text-blue-600" aria-hidden="true"/><p className="mt-3 text-xs font-black uppercase tracking-[0.15em] text-slate-400">Location</p><p className="mt-1 font-bold text-[#08376f]">Jodhpur, Rajasthan</p></div><div className="bg-white p-6"><FontAwesomeIcon icon={faClock} className="text-blue-600" aria-hidden="true"/><p className="mt-3 text-xs font-black uppercase tracking-[0.15em] text-slate-400">Appointments</p><p className="mt-1 font-bold text-[#08376f]">Schedule a convenient slot</p></div><div className="bg-white p-6"><FontAwesomeIcon icon={faPhone} className="text-blue-600" aria-hidden="true"/><p className="mt-3 text-xs font-black uppercase tracking-[0.15em] text-slate-400">Call</p><p className="mt-1 font-bold text-[#08376f]">+91 98298 24356</p></div></div></div></div></div></section>
-  </div>;
+      <section className="pb-20 sm:pb-24 lg:pb-28" aria-labelledby="visit-title">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="overflow-hidden rounded-[34px] bg-[#f4f8ff] ring-1 ring-blue-100">
+            <div className="grid lg:grid-cols-[1.1fr_0.9fr]">
+              <div className="p-6 sm:p-9 lg:p-12"><Label>Plan your visit</Label><h2 id="visit-title" className="mt-4 max-w-2xl text-4xl font-black leading-[1.04] tracking-[-0.04em] text-[#08376f] sm:text-5xl">Ready when you are.</h2><p className="mt-5 max-w-xl leading-8 text-slate-600">Book a consultation and tell us what is bothering you. We will take it from there.</p><div className="mt-8 flex flex-col gap-3 sm:flex-row"><Link href="/book-appointment" prefetch={false} className="inline-flex items-center justify-center rounded-full bg-blue-600 px-6 py-4 font-black text-white transition hover:bg-[#08376f]"><FontAwesomeIcon icon={faCalendarCheck} className="mr-2" aria-hidden="true" />Book Appointment</Link><a href="tel:+919829824356" className="inline-flex items-center justify-center rounded-full border border-blue-200 bg-white px-6 py-4 font-black text-[#08376f]"><FontAwesomeIcon icon={faPhone} className="mr-2" aria-hidden="true" />Call Clinic</a></div></div>
+              <div className="grid gap-px bg-blue-100 sm:grid-cols-3 lg:grid-cols-1"><div className="bg-white p-6"><FontAwesomeIcon icon={faLocationDot} className="text-blue-600" aria-hidden="true" /><p className="mt-3 text-xs font-black uppercase tracking-[0.15em] text-slate-400">Location</p><p className="mt-1 font-bold text-[#08376f]">Jodhpur, Rajasthan</p></div><div className="bg-white p-6"><FontAwesomeIcon icon={faClock} className="text-blue-600" aria-hidden="true" /><p className="mt-3 text-xs font-black uppercase tracking-[0.15em] text-slate-400">Appointments</p><p className="mt-1 font-bold text-[#08376f]">Schedule a convenient slot</p></div><div className="bg-white p-6"><FontAwesomeIcon icon={faPhone} className="text-blue-600" aria-hidden="true" /><p className="mt-3 text-xs font-black uppercase tracking-[0.15em] text-slate-400">Call</p><p className="mt-1 font-bold text-[#08376f]">+91 98298 24356</p></div></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
 }
