@@ -16,61 +16,61 @@ const achievements: Achievement[] = [
     icon: faUsers,
     number: "5000+",
     title: "Happy Patients",
-    text: "Trusted by families across Jodhpur.",
+    text: "Families who trust us with their smiles.",
   },
   {
     icon: faUserDoctor,
     number: "25+",
     title: "Years of Experience",
-    text: "Knowledge, precision, and ethical care.",
+    text: "Clinical expertise built over decades.",
   },
   {
     icon: faFaceSmile,
     number: "1200+",
     title: "Smiles Transformed",
-    text: "Personalized treatment for confident smiles.",
+    text: "Personalised treatment with lasting impact.",
   },
   {
     icon: faStar,
     number: "4.9/5",
     title: "Patient Rating",
-    text: "Highly rated for comfort and quality care.",
+    text: "Consistently appreciated for quality care.",
   },
 ];
 
 export default function AchievementsSection() {
   return (
-    <section
-      aria-labelledby="achievements-section-title"
-      className="relative overflow-hidden bg-white py-6 lg:py-8"
-    >
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section aria-labelledby="achievements-section-title" className="relative overflow-hidden bg-white py-8 lg:py-10">
+      <div className="mx-auto max-w-[1380px] px-4 sm:px-6 lg:px-8">
         <FadeUp>
-          <div className="relative overflow-hidden rounded-[30px] bg-gradient-to-r from-[#08376f] via-[#0b3c91] to-blue-700 px-5 py-8 shadow-[0_22px_55px_rgba(8,55,111,0.20)] sm:px-8 lg:px-10">
-            <div aria-hidden="true" className="absolute -right-20 -top-28 h-72 w-72 rounded-full border-[38px] border-white/5" />
-            <div aria-hidden="true" className="absolute -bottom-28 left-1/3 h-56 w-56 rounded-full bg-blue-300/10 blur-3xl" />
+          <div className="relative overflow-hidden rounded-[36px] bg-gradient-to-r from-[#062d5c] via-[#08376f] to-[#0b3c91] px-5 py-8 shadow-[0_28px_70px_rgba(8,55,111,0.22)] sm:px-8 lg:px-10 lg:py-10">
+            <div aria-hidden="true" className="absolute -right-28 -top-28 h-80 w-80 rounded-full border-[46px] border-white/5" />
+            <div aria-hidden="true" className="absolute -bottom-40 left-1/3 h-80 w-80 rounded-full bg-blue-300/10 blur-3xl" />
 
-            <div className="relative z-10 mb-7 text-center">
-              <p className="text-[11px] font-black uppercase tracking-[0.18em] text-blue-200">Trusted Dental Care</p>
-              <h2 id="achievements-section-title" className="mt-2 text-2xl font-black tracking-tight text-white sm:text-3xl">
-                Building Trust, One Smile at a Time
-              </h2>
+            <div className="relative z-10 grid items-center gap-7 lg:grid-cols-[0.72fr_1.28fr]">
+              <div className="max-w-md">
+                <p className="text-[11px] font-black uppercase tracking-[0.2em] text-blue-200">Trusted Dental Care</p>
+                <h2 id="achievements-section-title" className="mt-3 text-3xl font-black leading-tight tracking-[-0.03em] text-white sm:text-4xl">
+                  Confidence Built One Smile at a Time
+                </h2>
+                <p className="mt-3 text-sm leading-6 text-blue-100/75">Real experience, meaningful outcomes, and patient relationships that last.</p>
+              </div>
+
+              <StaggerContainer className="grid grid-cols-2 gap-3 md:grid-cols-4">
+                {achievements.map((item) => (
+                  <StaggerItem key={item.title}>
+                    <article className="group h-full rounded-[24px] border border-white/10 bg-white/[0.07] p-4 backdrop-blur transition duration-300 hover:-translate-y-1 hover:border-white/20 hover:bg-white/[0.12] sm:p-5">
+                      <div className="grid h-11 w-11 place-items-center rounded-2xl bg-white/10 text-lg text-blue-200 transition group-hover:bg-white group-hover:text-blue-700">
+                        <FontAwesomeIcon icon={item.icon} aria-hidden="true" />
+                      </div>
+                      <div className="mt-4 text-3xl font-black tracking-[-0.04em] text-white sm:text-[34px]">{item.number}</div>
+                      <h3 className="mt-1 text-sm font-black text-white">{item.title}</h3>
+                      <p className="mt-2 hidden text-xs leading-5 text-blue-100/70 md:block">{item.text}</p>
+                    </article>
+                  </StaggerItem>
+                ))}
+              </StaggerContainer>
             </div>
-
-            <StaggerContainer className="relative z-10 grid grid-cols-2 gap-4 lg:grid-cols-4">
-              {achievements.map((item, index) => (
-                <StaggerItem key={item.title}>
-                  <article className={`group h-full rounded-2xl border border-white/10 bg-white/[0.07] p-5 text-center backdrop-blur transition hover:-translate-y-1 hover:bg-white/[0.11] ${index < achievements.length - 1 ? "lg:border-r-white/20" : ""}`}>
-                    <div className="mx-auto grid h-12 w-12 place-items-center rounded-2xl bg-white/10 text-xl text-blue-200 transition group-hover:bg-white group-hover:text-blue-700">
-                      <FontAwesomeIcon icon={item.icon} aria-hidden="true" />
-                    </div>
-                    <div className="mt-4 text-3xl font-black tracking-tight text-white sm:text-4xl">{item.number}</div>
-                    <h3 className="mt-1 text-sm font-extrabold text-white">{item.title}</h3>
-                    <p className="mt-2 hidden text-xs leading-5 text-blue-100/80 sm:block">{item.text}</p>
-                  </article>
-                </StaggerItem>
-              ))}
-            </StaggerContainer>
           </div>
         </FadeUp>
       </div>
