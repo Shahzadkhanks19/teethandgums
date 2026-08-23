@@ -9,7 +9,6 @@ import { dentistSchema, websiteSchema } from "@/lib/schema";
 import AnimationProvider from "@/components/animations/AnimationProvider";
 import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
 import WebVitalsReporter from "@/components/analytics/WebVitalsReporter";
-import GlobalPreloader from "@/components/layout/GlobalPreloader";
 import NavigationOverlay from "@/components/layout/NavigationOverlay";
 import NavigationProgress from "@/components/layout/NavigationProgress";
 
@@ -59,6 +58,13 @@ export const metadata: Metadata = {
 
   applicationName: clinicName,
   manifest: "/site.webmanifest",
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon.png", type: "image/png" },
+    ],
+    apple: [{ url: "/apple-icon.png", type: "image/png" }],
+  },
 
   authors: [{ name: clinicName }],
   creator: clinicName,
@@ -141,7 +147,6 @@ export default function RootLayout({
       <body>
         <GoogleAnalytics />
         <WebVitalsReporter />
-        <GlobalPreloader />
 
         <AnimationProvider>
           <Suspense fallback={null}>
