@@ -2,8 +2,6 @@ import { createMetadata } from "@/lib/seo";
 
 import HeroSection from "@/components/home/HeroSection";
 import PremiumHomeSections from "@/components/home/PremiumHomeSections";
-import FAQSection from "@/components/home/FAQSection";
-import TestimonialsSection from "@/components/home/TestimonialsSection";
 
 export const metadata = createMetadata({
   title: "Best Dental Clinic in Jodhpur",
@@ -45,8 +43,6 @@ export default function HomePage() {
       <main id="main-content" tabIndex={-1} className="overflow-x-hidden outline-none">
         <HeroSection />
         <PremiumHomeSections />
-        <TestimonialsSection />
-        <FAQSection />
       </main>
     </>
   );
