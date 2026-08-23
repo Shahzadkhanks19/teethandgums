@@ -9,6 +9,7 @@ import {
   faShieldHeart,
   faStar,
   faUsers,
+  faWandMagicSparkles,
 } from "@fortawesome/free-solid-svg-icons";
 
 import Image from "next/image";
@@ -123,6 +124,7 @@ export default function HeroSection() {
   const handleTouchEnd = useCallback(() => {
     const startX = touchStartXRef.current;
     const endX = touchEndXRef.current;
+
     if (startX !== null && endX !== null) {
       const diff = startX - endX;
       if (Math.abs(diff) > SWIPE_THRESHOLD) {
@@ -130,6 +132,7 @@ export default function HeroSection() {
         else handlePrev();
       }
     }
+
     touchStartXRef.current = null;
     touchEndXRef.current = null;
     resumeAutoPlay();
@@ -145,6 +148,7 @@ export default function HeroSection() {
       if (document.hidden) pauseAutoPlay();
       else resumeAutoPlay();
     };
+
     document.addEventListener("visibilitychange", handleVisibilityChange);
     return () => document.removeEventListener("visibilitychange", handleVisibilityChange);
   }, [pauseAutoPlay, resumeAutoPlay]);
@@ -171,171 +175,190 @@ export default function HeroSection() {
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
-      className="relative isolate min-h-[760px] touch-pan-y overflow-hidden bg-white sm:min-h-[790px] lg:min-h-[650px] xl:min-h-[720px]"
+      className="relative isolate overflow-hidden bg-[linear-gradient(180deg,#f8fbff_0%,#ffffff_100%)] px-3 pb-6 pt-3 sm:px-4 sm:pb-8 lg:px-6 lg:pt-5"
     >
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_20%,rgba(219,234,254,0.9),transparent_34%),linear-gradient(135deg,#ffffff_0%,#f8fbff_45%,#eaf3ff_100%)]" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-[420px] bg-[radial-gradient(circle_at_18%_24%,rgba(219,234,254,.9),transparent_32%),radial-gradient(circle_at_85%_15%,rgba(191,219,254,.55),transparent_30%)]" />
 
-      <div className="absolute inset-y-0 right-0 z-[1] w-full lg:w-[58%]">
-        <Image
-          key={slide.id}
-          src={slide.image}
-          alt={slide.headline}
-          fill
-          priority={current === 0}
-          fetchPriority={current === 0 ? "high" : "auto"}
-          loading={current === 0 ? "eager" : "lazy"}
-          sizes="(max-width: 1023px) 100vw, 58vw"
-          quality={74}
-          className="object-cover object-[58%_center] sm:object-[60%_center] lg:object-center"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-white via-white/55 to-transparent lg:bg-gradient-to-r lg:from-white lg:via-white/20 lg:to-transparent" />
-        <div className="absolute inset-0 hidden bg-[linear-gradient(115deg,white_0%,rgba(255,255,255,.98)_18%,rgba(255,255,255,.6)_38%,transparent_65%)] lg:block" />
-      </div>
+      <div className="relative mx-auto min-h-[720px] max-w-[1480px] overflow-hidden rounded-[34px] border border-blue-100/80 bg-white shadow-[0_28px_90px_rgba(8,55,111,0.12)] sm:min-h-[760px] lg:min-h-[660px] xl:min-h-[700px] xl:rounded-[44px]">
+        <div className="absolute inset-0 bg-[linear-gradient(120deg,#ffffff_0%,#ffffff_40%,#f3f8ff_100%)]" />
 
-      <div className="relative z-10 mx-auto flex min-h-[760px] max-w-[1560px] items-center px-4 pb-36 pt-16 sm:min-h-[790px] sm:px-6 lg:min-h-[650px] lg:px-8 lg:pb-28 lg:pt-20 xl:min-h-[720px] xl:px-10">
-        <m.div
-          key={slide.id}
-          initial={current === 0 || shouldReduceMotion ? false : { opacity: 0, y: 22 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: shouldReduceMotion ? 0 : 0.55, ease: [0.22, 1, 0.36, 1] }}
-          className="w-full max-w-[740px]"
-        >
-          <span className="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-white/90 px-4 py-2 text-[11px] font-black uppercase tracking-[0.16em] text-blue-700 shadow-sm backdrop-blur sm:text-xs">
-            <FontAwesomeIcon aria-hidden="true" icon={faShieldHeart} />
-            {slide.eyebrow}
-          </span>
+        <div className="absolute inset-x-0 bottom-0 z-[2] h-28 bg-[linear-gradient(180deg,transparent,rgba(8,55,111,.035))]" />
 
-          <h1 className="mt-6 max-w-[720px] text-[42px] font-black leading-[0.98] tracking-[-0.045em] text-[#08376f] sm:text-[54px] lg:text-[62px] xl:text-[76px]">
-            {slide.headline}
-          </h1>
-
-          {slide.subHeadline ? (
-            <p className="mt-6 max-w-[620px] text-base font-medium leading-8 text-slate-600 sm:text-lg lg:text-xl">
-              {slide.subHeadline}
-            </p>
-          ) : (
-            <p className="mt-6 max-w-[620px] text-base font-medium leading-8 text-slate-600 sm:text-lg lg:text-xl">
-              Advanced, compassionate dental care designed around precision,
-              comfort, and long-term confidence in your smile.
-            </p>
-          )}
-
-          {slide.bullets && (
-            <ul className="mt-7 flex flex-wrap gap-3">
-              {slide.bullets.map((bullet) => (
-                <li
-                  key={bullet}
-                  className="inline-flex items-center gap-2 rounded-full border border-blue-100 bg-white/90 px-4 py-2.5 text-sm font-extrabold text-slate-700 shadow-[0_8px_24px_rgba(37,99,235,0.08)] backdrop-blur"
-                >
-                  <FontAwesomeIcon aria-hidden="true" icon={faCircleCheck} className="text-blue-600" />
-                  {bullet}
-                </li>
-              ))}
-            </ul>
-          )}
-
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Link
-              prefetch={false}
-              href={slide.ctaLink}
-              className="group inline-flex items-center justify-center rounded-2xl bg-gradient-to-r from-blue-600 to-[#0b3c91] px-7 py-4 text-sm font-black text-white shadow-[0_18px_42px_rgba(37,99,235,0.28)] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_26px_55px_rgba(37,99,235,0.36)] sm:px-8 sm:text-base"
-            >
-              {slide.ctaText}
-              <FontAwesomeIcon aria-hidden="true" icon={faArrowRight} className="ml-3 transition-transform group-hover:translate-x-1" />
-            </Link>
-            <Link
-              prefetch={false}
-              href="/services"
-              className="inline-flex items-center justify-center rounded-2xl border border-blue-200 bg-white/90 px-7 py-4 text-sm font-black text-[#08376f] shadow-sm backdrop-blur transition duration-300 hover:border-blue-400 hover:bg-blue-50 sm:px-8 sm:text-base"
-            >
-              Explore Services
-            </Link>
-          </div>
-
-          <div className="mt-9 grid max-w-[650px] grid-cols-1 gap-3 sm:grid-cols-3">
-            <div className="rounded-[22px] border border-blue-100 bg-white/90 p-4 shadow-[0_14px_35px_rgba(8,55,111,0.08)] backdrop-blur">
-              <div className="flex items-center gap-3">
-                <span className="grid h-10 w-10 place-items-center rounded-xl bg-blue-50 text-blue-700">
-                  <FontAwesomeIcon aria-hidden="true" icon={faUsers} />
-                </span>
-                <div>
-                  <div className="text-xl font-black text-[#08376f]">5000+</div>
-                  <div className="text-xs font-bold text-slate-500">Happy Patients</div>
-                </div>
-              </div>
-            </div>
-            <div className="rounded-[22px] border border-blue-100 bg-white/90 p-4 shadow-[0_14px_35px_rgba(8,55,111,0.08)] backdrop-blur">
-              <div className="flex items-center gap-3">
-                <span className="grid h-10 w-10 place-items-center rounded-xl bg-blue-50 text-blue-700">
-                  <FontAwesomeIcon aria-hidden="true" icon={faStar} />
-                </span>
-                <div>
-                  <div className="text-xl font-black text-[#08376f]">4.9/5</div>
-                  <div className="text-xs font-bold text-slate-500">Patient Rating</div>
-                </div>
-              </div>
-            </div>
-            <div className="rounded-[22px] border border-blue-100 bg-white/90 p-4 shadow-[0_14px_35px_rgba(8,55,111,0.08)] backdrop-blur">
-              <div className="flex items-center gap-3">
-                <span className="grid h-10 w-10 place-items-center rounded-xl bg-blue-50 text-blue-700">
-                  <FontAwesomeIcon aria-hidden="true" icon={faShieldHeart} />
-                </span>
-                <div>
-                  <div className="text-sm font-black text-[#08376f]">Patient-first</div>
-                  <div className="text-xs font-bold text-slate-500">Comfort & Safety</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </m.div>
-      </div>
-
-      <div className="absolute bottom-5 left-1/2 z-30 flex -translate-x-1/2 items-center gap-3 rounded-full border border-blue-100 bg-white/90 p-2 shadow-[0_18px_45px_rgba(8,55,111,0.14)] backdrop-blur-xl lg:bottom-8">
-        <button
-          type="button"
-          onClick={handlePrev}
-          aria-label="Previous slide"
-          className="grid h-10 w-10 place-items-center rounded-full text-blue-700 transition hover:bg-blue-50"
-        >
-          <FontAwesomeIcon aria-hidden="true" icon={faChevronLeft} />
-        </button>
-        <div role="tablist" aria-label="Hero slider navigation" className="flex items-center gap-2 px-1">
-          {slides.map((item, index) => {
-            const isActive = index === current;
-            return (
-              <button
-                key={item.id}
-                type="button"
-                role="tab"
-                aria-selected={isActive}
-                aria-label={`Go to slide ${index + 1}: ${item.headline}`}
-                onClick={() => handleDot(index)}
-                className={`h-2.5 rounded-full transition-all duration-300 ${isActive ? "w-8 bg-blue-600" : "w-2.5 bg-blue-200 hover:bg-blue-400"}`}
-              />
-            );
-          })}
+        <div className="absolute inset-x-0 bottom-0 z-[2] hidden h-28 opacity-60 lg:block">
+          <svg viewBox="0 0 1440 120" preserveAspectRatio="none" className="h-full w-full" aria-hidden="true">
+            <path d="M0,78 C260,20 430,112 680,64 C930,16 1150,92 1440,34 L1440,120 L0,120 Z" fill="#eff6ff" />
+            <path d="M0,92 C260,42 520,122 760,72 C1020,18 1230,102 1440,55" fill="none" stroke="#93c5fd" strokeOpacity="0.35" strokeWidth="2" />
+          </svg>
         </div>
-        <button
-          type="button"
-          onClick={handleNext}
-          aria-label="Next slide"
-          className="grid h-10 w-10 place-items-center rounded-full text-blue-700 transition hover:bg-blue-50"
-        >
-          <FontAwesomeIcon aria-hidden="true" icon={faChevronRight} />
-        </button>
-      </div>
 
-      {!shouldReduceMotion && (
-        <div aria-hidden="true" className="absolute bottom-0 left-0 z-20 h-1 w-full bg-blue-100">
-          <m.div
-            key={current}
-            initial={{ width: "0%" }}
-            animate={{ width: "100%" }}
-            transition={{ duration: AUTO_PLAY_INTERVAL / 1000, ease: "linear" }}
-            className="h-full bg-gradient-to-r from-blue-600 to-[#0b3c91]"
+        <div className="absolute inset-x-4 top-4 z-[4] h-[310px] overflow-hidden rounded-[28px] sm:inset-x-5 sm:top-5 sm:h-[350px] lg:bottom-5 lg:left-auto lg:right-5 lg:top-5 lg:h-auto lg:w-[50%] xl:w-[52%] xl:rounded-[38px]">
+          <Image
+            key={slide.id}
+            src={slide.image}
+            alt={slide.headline}
+            fill
+            priority={current === 0}
+            fetchPriority={current === 0 ? "high" : "auto"}
+            loading={current === 0 ? "eager" : "lazy"}
+            sizes="(max-width: 1023px) calc(100vw - 40px), 52vw"
+            quality={76}
+            className="object-cover object-[58%_center] sm:object-[60%_center] lg:object-center"
           />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#08376f]/45 via-transparent to-transparent lg:bg-gradient-to-l lg:from-transparent lg:via-transparent lg:to-white/5" />
+          <div className="absolute inset-0 ring-1 ring-inset ring-white/25" />
+
+          <div className="absolute bottom-4 left-4 right-4 flex flex-wrap items-center justify-between gap-3 rounded-[22px] border border-white/25 bg-[#08376f]/80 p-4 text-white shadow-2xl backdrop-blur-xl sm:bottom-5 sm:left-5 sm:right-auto sm:max-w-[360px] lg:bottom-6 lg:left-6">
+            <div className="flex items-center gap-3">
+              <span className="grid h-11 w-11 place-items-center rounded-2xl bg-white/15 text-blue-100">
+                <FontAwesomeIcon aria-hidden="true" icon={faShieldHeart} />
+              </span>
+              <div>
+                <div className="text-xs font-black uppercase tracking-[0.12em] text-blue-200">Patient-first care</div>
+                <div className="mt-0.5 text-sm font-extrabold">Comfort, precision & trust</div>
+              </div>
+            </div>
+          </div>
         </div>
-      )}
+
+        <div className="relative z-10 mx-auto flex min-h-[720px] max-w-[1480px] items-end px-5 pb-24 pt-[350px] sm:min-h-[760px] sm:px-8 sm:pt-[392px] lg:min-h-[660px] lg:items-center lg:px-10 lg:pb-24 lg:pt-16 xl:min-h-[700px] xl:px-14">
+          <m.div
+            key={slide.id}
+            initial={current === 0 || shouldReduceMotion ? false : { opacity: 0, y: 22 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: shouldReduceMotion ? 0 : 0.55, ease: [0.22, 1, 0.36, 1] }}
+            className="w-full lg:max-w-[47%]"
+          >
+            <span className="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50/90 px-4 py-2 text-[10px] font-black uppercase tracking-[0.18em] text-blue-700 shadow-sm sm:text-[11px]">
+              <FontAwesomeIcon aria-hidden="true" icon={faWandMagicSparkles} />
+              {slide.eyebrow}
+            </span>
+
+            <h1 className="mt-5 max-w-[700px] text-[38px] font-black leading-[0.99] tracking-[-0.045em] text-[#08376f] sm:text-[48px] lg:text-[52px] xl:text-[64px]">
+              {slide.headline}
+            </h1>
+
+            <p className="mt-5 max-w-[610px] text-[15px] font-medium leading-7 text-slate-600 sm:text-base sm:leading-8 lg:text-lg">
+              {slide.subHeadline ??
+                "Advanced, compassionate dental care designed around precision, comfort, and long-term confidence in your smile."}
+            </p>
+
+            {slide.bullets && (
+              <ul className="mt-6 flex flex-wrap gap-2.5">
+                {slide.bullets.map((bullet) => (
+                  <li
+                    key={bullet}
+                    className="inline-flex items-center gap-2 rounded-full border border-blue-100 bg-white px-3.5 py-2 text-xs font-extrabold text-slate-700 shadow-[0_8px_22px_rgba(37,99,235,0.07)] sm:text-sm"
+                  >
+                    <FontAwesomeIcon aria-hidden="true" icon={faCircleCheck} className="text-blue-600" />
+                    {bullet}
+                  </li>
+                ))}
+              </ul>
+            )}
+
+            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+              <Link
+                prefetch={false}
+                href={slide.ctaLink}
+                className="group inline-flex items-center justify-center rounded-2xl bg-gradient-to-r from-blue-600 to-[#0b3c91] px-6 py-3.5 text-sm font-black text-white shadow-[0_16px_38px_rgba(37,99,235,0.27)] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_24px_48px_rgba(37,99,235,0.34)] sm:px-7 sm:text-base"
+              >
+                {slide.ctaText}
+                <FontAwesomeIcon aria-hidden="true" icon={faArrowRight} className="ml-3 transition-transform group-hover:translate-x-1" />
+              </Link>
+              <Link
+                prefetch={false}
+                href="/services"
+                className="inline-flex items-center justify-center rounded-2xl border border-blue-200 bg-white px-6 py-3.5 text-sm font-black text-[#08376f] shadow-sm transition duration-300 hover:border-blue-400 hover:bg-blue-50 sm:px-7 sm:text-base"
+              >
+                Explore Services
+              </Link>
+            </div>
+
+            <div className="mt-7 grid max-w-[610px] grid-cols-1 gap-2.5 sm:grid-cols-3">
+              <div className="rounded-[20px] border border-blue-100 bg-white p-3.5 shadow-[0_12px_28px_rgba(8,55,111,0.07)]">
+                <div className="flex items-center gap-3">
+                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-blue-50 text-blue-700">
+                    <FontAwesomeIcon aria-hidden="true" icon={faUsers} />
+                  </span>
+                  <div>
+                    <div className="text-lg font-black text-[#08376f]">5000+</div>
+                    <div className="text-[11px] font-bold text-slate-500">Happy Patients</div>
+                  </div>
+                </div>
+              </div>
+              <div className="rounded-[20px] border border-blue-100 bg-white p-3.5 shadow-[0_12px_28px_rgba(8,55,111,0.07)]">
+                <div className="flex items-center gap-3">
+                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-blue-50 text-blue-700">
+                    <FontAwesomeIcon aria-hidden="true" icon={faStar} />
+                  </span>
+                  <div>
+                    <div className="text-lg font-black text-[#08376f]">4.9/5</div>
+                    <div className="text-[11px] font-bold text-slate-500">Patient Rating</div>
+                  </div>
+                </div>
+              </div>
+              <div className="rounded-[20px] border border-blue-100 bg-white p-3.5 shadow-[0_12px_28px_rgba(8,55,111,0.07)]">
+                <div className="flex items-center gap-3">
+                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-blue-50 text-blue-700">
+                    <FontAwesomeIcon aria-hidden="true" icon={faShieldHeart} />
+                  </span>
+                  <div>
+                    <div className="text-sm font-black text-[#08376f]">Patient-first</div>
+                    <div className="text-[11px] font-bold text-slate-500">Comfort & Safety</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </m.div>
+        </div>
+
+        <div className="absolute bottom-5 left-1/2 z-30 flex -translate-x-1/2 items-center gap-2 rounded-full border border-blue-100 bg-white/95 p-1.5 shadow-[0_16px_38px_rgba(8,55,111,0.13)] backdrop-blur-xl lg:left-10 lg:translate-x-0 xl:left-14">
+          <button
+            type="button"
+            onClick={handlePrev}
+            aria-label="Previous slide"
+            className="grid h-9 w-9 place-items-center rounded-full text-blue-700 transition hover:bg-blue-50"
+          >
+            <FontAwesomeIcon aria-hidden="true" icon={faChevronLeft} />
+          </button>
+          <div role="tablist" aria-label="Hero slider navigation" className="flex items-center gap-2 px-1">
+            {slides.map((item, index) => {
+              const isActive = index === current;
+              return (
+                <button
+                  key={item.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={isActive}
+                  aria-label={`Go to slide ${index + 1}: ${item.headline}`}
+                  onClick={() => handleDot(index)}
+                  className={`h-2.5 rounded-full transition-all duration-300 ${isActive ? "w-8 bg-blue-600" : "w-2.5 bg-blue-200 hover:bg-blue-400"}`}
+                />
+              );
+            })}
+          </div>
+          <button
+            type="button"
+            onClick={handleNext}
+            aria-label="Next slide"
+            className="grid h-9 w-9 place-items-center rounded-full text-blue-700 transition hover:bg-blue-50"
+          >
+            <FontAwesomeIcon aria-hidden="true" icon={faChevronRight} />
+          </button>
+        </div>
+
+        {!shouldReduceMotion && (
+          <div aria-hidden="true" className="absolute bottom-0 left-0 z-20 h-1 w-full bg-blue-100">
+            <m.div
+              key={current}
+              initial={{ width: "0%" }}
+              animate={{ width: "100%" }}
+              transition={{ duration: AUTO_PLAY_INTERVAL / 1000, ease: "linear" }}
+              className="h-full bg-gradient-to-r from-blue-600 to-[#0b3c91]"
+            />
+          </div>
+        )}
+      </div>
     </section>
   );
 }
