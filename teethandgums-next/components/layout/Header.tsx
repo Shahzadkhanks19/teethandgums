@@ -1,8 +1,18 @@
 "use client";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendarCheck, faClock, faEnvelope, faLocationDot, faPhone } from "@fortawesome/free-solid-svg-icons";
-import { faFacebookF, faInstagram, faWhatsapp } from "@fortawesome/free-brands-svg-icons";
+import {
+  faCalendarCheck,
+  faClock,
+  faEnvelope,
+  faLocationDot,
+  faPhone,
+} from "@fortawesome/free-solid-svg-icons";
+import {
+  faFacebookF,
+  faInstagram,
+  faWhatsapp,
+} from "@fortawesome/free-brands-svg-icons";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -27,24 +37,18 @@ export default function Header() {
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 18);
-
     handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
-
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
-    const frameId = window.requestAnimationFrame(() => {
-      setMenuOpen(false);
-    });
-
+    const frameId = window.requestAnimationFrame(() => setMenuOpen(false));
     return () => window.cancelAnimationFrame(frameId);
   }, [pathname]);
 
   useEffect(() => {
     const header = headerRef.current;
-
     if (!header) return;
 
     const updateHeaderHeight = () => {
@@ -55,10 +59,8 @@ export default function Header() {
     };
 
     updateHeaderHeight();
-
     const resizeObserver = new ResizeObserver(updateHeaderHeight);
     resizeObserver.observe(header);
-
     window.addEventListener("resize", updateHeaderHeight, { passive: true });
 
     return () => {
@@ -71,129 +73,94 @@ export default function Header() {
     <>
       <header
         ref={headerRef}
-        className={`fixed left-0 right-0 top-0 z-[99999] w-full bg-white transition-all duration-300 ${
-          scrolled ? "shadow-[0_18px_45px_rgba(13,110,253,0.12)]" : ""
+        className={`fixed inset-x-0 top-0 z-[99999] w-full transition-all duration-300 ${
+          scrolled ? "bg-white/95 shadow-[0_18px_55px_rgba(8,55,111,0.14)] backdrop-blur-xl" : "bg-white"
         }`}
       >
         <div
-          className={`overflow-hidden bg-gradient-to-br from-[#08376f] to-[#0b3c91] text-white transition-all duration-300 ${
+          className={`overflow-hidden bg-gradient-to-r from-[#08376f] via-[#0b3c91] to-blue-700 text-white transition-all duration-300 ${
             scrolled ? "max-h-0 py-0 opacity-0" : "max-h-[70px] py-2.5 opacity-100"
           }`}
         >
-          <div className="mx-auto max-w-[1700px] px-[14px] sm:px-5 lg:px-[35px] xl:px-[60px]">
-            <div className="flex items-center justify-center gap-4 text-[11px] sm:text-xs lg:justify-between lg:text-sm">
-              <div className="flex w-full items-center justify-between gap-3 lg:w-auto lg:justify-start">
-                <div className="flex items-center gap-2">
-                  <FontAwesomeIcon aria-hidden="true" icon={faLocationDot} className="text-blue-300" />
-                  <span className="hidden sm:inline">E-32, Shastri Nagar, Jodhpur</span>
-                  <span className="sm:hidden">E-32, Shastri Nagar, Jodhpur</span>
+          <div className="mx-auto max-w-[1560px] px-4 sm:px-6 lg:px-8 xl:px-10">
+            <div className="flex items-center justify-between gap-4 text-[11px] sm:text-xs lg:text-[13px]">
+              <div className="flex min-w-0 items-center gap-4 lg:gap-6">
+                <div className="flex min-w-0 items-center gap-2">
+                  <FontAwesomeIcon aria-hidden="true" icon={faLocationDot} className="shrink-0 text-blue-200" />
+                  <span className="truncate">E-32, Shastri Nagar, Jodhpur</span>
                 </div>
-
-                <div className="hidden h-[18px] w-px bg-white/25 lg:block"></div>
-
-                <div className="hidden items-center gap-2 lg:flex">
-                  <FontAwesomeIcon aria-hidden="true" icon={faClock} className="text-blue-300" />
-                  <span>Mon–Sat 10am–3pm & 5:30pm–8:30pm | Sun 10am–3pm</span>
-                </div>
-
-                <div className="hidden h-[18px] w-px bg-white/25 lg:block"></div>
-
-                <div className="flex items-center gap-2">
-                  <FontAwesomeIcon aria-hidden="true" icon={faPhone} className="text-blue-300" />
-                  <a href="tel:+919829824356" itemProp="telephone">+91 98298 24356</a>
+                <div className="hidden h-4 w-px bg-white/25 md:block" />
+                <div className="hidden items-center gap-2 md:flex">
+                  <FontAwesomeIcon aria-hidden="true" icon={faClock} className="text-blue-200" />
+                  <span>Mon–Sat 10am–3pm & 5:30pm–8:30pm · Sun 10am–3pm</span>
                 </div>
               </div>
 
-              <div className="hidden items-center gap-3 lg:flex">
-                <div className="flex items-center gap-2">
-                  <FontAwesomeIcon aria-hidden="true" icon={faEnvelope} className="text-blue-300" />
-                  <a href="mailto:sunitakhetani@gmail.com" itemProp="email">
-                    sunitakhetani@gmail.com
-                  </a>
-                </div>
-
-                <div className="h-[18px] w-px bg-white/25"></div>
-
-                <div className="flex gap-2">
-<a
-                    href="https://www.facebook.com/profile.php?id=61590941001711"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Facebook"
-                    className="flex h-[34px] w-[34px] items-center justify-center rounded-full bg-white/10 text-white transition-[transform,background-color,color,box-shadow] duration-[350ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:scale-[1.08] hover:bg-white hover:text-blue-600 hover:shadow-[0_15px_30px_rgba(255,255,255,0.2)]"
-                  >
-                    <FontAwesomeIcon aria-hidden="true" icon={faFacebookF} />
-                  </a>
-                </div>
-                <div className="flex gap-2">
-<a
-                    href="https://www.instagram.com/teethandgumscare?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Instagram"
-                    className="flex h-[34px] w-[34px] items-center justify-center rounded-full bg-white/10 text-white transition-[transform,background-color,color,box-shadow] duration-[350ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:scale-[1.08] hover:bg-white hover:text-blue-600 hover:shadow-[0_15px_30px_rgba(255,255,255,0.2)]"
-                  >
-                    <FontAwesomeIcon aria-hidden="true" icon={faInstagram} />
-                  </a>
-                </div>
-                <div className="flex gap-2">
-<a
-                    href="https://wa.me/919829824356"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="WhatsApp"
-                    className="flex h-[34px] w-[34px] items-center justify-center rounded-full bg-white/10 text-white transition-[transform,background-color,color,box-shadow] duration-[350ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:scale-[1.08] hover:bg-white hover:text-blue-600 hover:shadow-[0_15px_30px_rgba(255,255,255,0.2)]"
-                  >
-                    <FontAwesomeIcon aria-hidden="true" icon={faWhatsapp} />
-                  </a>
+              <div className="flex shrink-0 items-center gap-3 lg:gap-4">
+                <a href="tel:+919829824356" itemProp="telephone" className="flex items-center gap-2 font-bold">
+                  <FontAwesomeIcon aria-hidden="true" icon={faPhone} className="text-blue-200" />
+                  <span className="hidden sm:inline">+91 98298 24356</span>
+                </a>
+                <a href="mailto:sunitakhetani@gmail.com" itemProp="email" className="hidden items-center gap-2 xl:flex">
+                  <FontAwesomeIcon aria-hidden="true" icon={faEnvelope} className="text-blue-200" />
+                  <span>sunitakhetani@gmail.com</span>
+                </a>
+                <div className="hidden items-center gap-1.5 lg:flex">
+                  {[
+                    { href: "https://www.facebook.com/profile.php?id=61590941001711", label: "Facebook", icon: faFacebookF },
+                    { href: "https://www.instagram.com/teethandgumscare?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==", label: "Instagram", icon: faInstagram },
+                    { href: "https://wa.me/919829824356", label: "WhatsApp", icon: faWhatsapp },
+                  ].map((social) => (
+                    <a
+                      key={social.label}
+                      href={social.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={social.label}
+                      className="grid h-7 w-7 place-items-center rounded-full border border-white/15 bg-white/10 text-[11px] transition hover:-translate-y-0.5 hover:bg-white hover:text-blue-700"
+                    >
+                      <FontAwesomeIcon aria-hidden="true" icon={social.icon} />
+                    </a>
+                  ))}
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        <nav className="border-b border-blue-100/60 bg-white">
-          <div className="mx-auto max-w-[1700px] px-[14px] sm:px-5 lg:px-[35px] xl:px-[60px]">
+        <nav className="border-b border-blue-100/80 bg-white/95 backdrop-blur-xl">
+          <div className="mx-auto max-w-[1560px] px-4 sm:px-6 lg:px-8 xl:px-10">
             <div
-              className={`flex flex-wrap items-center justify-between gap-3 py-2.5 transition-all duration-300 lg:flex-nowrap ${
-                scrolled ? "min-h-[70px] lg:min-h-[76px]" : "min-h-[76px] lg:min-h-[90px]"
+              className={`flex flex-wrap items-center justify-between gap-3 transition-all duration-300 lg:flex-nowrap ${
+                scrolled ? "min-h-[72px] py-2" : "min-h-[86px] py-2.5"
               }`}
             >
-              <Link prefetch={false}
+              <Link
+                prefetch={false}
                 href="/"
                 scroll
                 onClick={() => setMenuOpen(false)}
-                className="flex min-w-0 flex-1 items-center gap-3.5 text-decoration-none lg:flex-none"
+                className="flex min-w-0 flex-1 items-center gap-3 lg:flex-none"
               >
                 <div
-                  className={`relative shrink-0 overflow-hidden rounded-[14px] bg-white shadow-[0_10px_30px_rgba(13,110,253,0.15)] transition-all duration-300 ${
-                    scrolled
-                      ? "h-11 w-11 sm:h-12 sm:w-12 lg:h-[56px] lg:w-[56px]"
-                      : "h-12 w-12 sm:h-[54px] sm:w-[54px] lg:h-16 lg:w-16 xl:h-[74px] xl:w-[74px] xl:rounded-[18px]"
+                  className={`relative shrink-0 overflow-hidden rounded-2xl border border-blue-100 bg-white shadow-[0_12px_34px_rgba(37,99,235,0.13)] transition-all duration-300 ${
+                    scrolled ? "h-12 w-12 lg:h-[54px] lg:w-[54px]" : "h-[54px] w-[54px] lg:h-[64px] lg:w-[64px]"
                   }`}
                 >
                   <Image
                     src="/images/logo/logo.webp"
                     alt="Teeth and Gums Care"
                     fill
-                    sizes="(max-width: 480px) 48px, (max-width: 991px) 54px, (max-width: 1200px) 64px, 74px"
+                    sizes="64px"
                     className="object-cover"
                   />
                 </div>
-
                 <div className="min-w-0">
-                  <div
-                    className={`whitespace-nowrap font-extrabold leading-[1.1] text-slate-900 transition-all duration-300 ${
-                      scrolled
-                        ? "text-[17px] sm:text-[19px] lg:text-[22px]"
-                        : "text-[18px] sm:text-xl lg:text-[23px] xl:text-[28px]"
-                    }`}
-                  >
+                  <div className="truncate text-[17px] font-black tracking-[-0.02em] text-[#08376f] sm:text-xl lg:text-[22px]">
                     Teeth and Gums Care
                   </div>
-
-                  <div className="mt-1 whitespace-nowrap text-[9px] font-bold uppercase tracking-[0.12em] text-slate-500 sm:text-[10px] lg:text-xs lg:tracking-[0.16em]">
-                    Dental Clinic · Jodhpur
+                  <div className="mt-0.5 text-[9px] font-extrabold uppercase tracking-[0.17em] text-blue-600 sm:text-[10px]">
+                    Advanced Dental Care · Jodhpur
                   </div>
                 </div>
               </Link>
@@ -204,63 +171,52 @@ export default function Header() {
                 aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
                 aria-expanded={menuOpen}
                 aria-controls="mobile-navigation"
-                className="flex h-11 w-11 flex-col items-center justify-center gap-[5px] rounded-[14px] bg-[#eaf3ff] shadow-[0_10px_25px_rgba(13,110,253,0.12)] transition-colors duration-200 hover:bg-[#eaf3ff] lg:hidden"
+                className="flex h-11 w-11 flex-col items-center justify-center gap-[5px] rounded-2xl border border-blue-100 bg-blue-50 shadow-sm lg:hidden"
               >
-                <span
-                  className={`h-[2.5px] w-[22px] rounded-full bg-[#0b3c91] transition ${
-                    menuOpen ? "translate-y-[7.5px] rotate-45" : ""
-                  }`}
-                ></span>
-                <span
-                  className={`h-[2.5px] w-[22px] rounded-full bg-[#0b3c91] transition ${
-                    menuOpen ? "opacity-0" : ""
-                  }`}
-                ></span>
-                <span
-                  className={`h-[2.5px] w-[22px] rounded-full bg-[#0b3c91] transition ${
-                    menuOpen ? "-translate-y-[7.5px] -rotate-45" : ""
-                  }`}
-                ></span>
+                <span className={`h-[2px] w-[22px] rounded-full bg-[#0b3c91] transition ${menuOpen ? "translate-y-[7px] rotate-45" : ""}`} />
+                <span className={`h-[2px] w-[22px] rounded-full bg-[#0b3c91] transition ${menuOpen ? "opacity-0" : ""}`} />
+                <span className={`h-[2px] w-[22px] rounded-full bg-[#0b3c91] transition ${menuOpen ? "-translate-y-[7px] -rotate-45" : ""}`} />
               </button>
 
-              <div className="hidden flex-1 items-center justify-end gap-6 lg:flex">
-                <ul className="flex list-none items-center gap-1.5 p-0">
+              <div className="hidden flex-1 items-center justify-end gap-4 xl:gap-6 lg:flex">
+                <ul className="flex list-none items-center gap-0.5 p-0 xl:gap-1">
                   {navLinks.map((link) => {
                     const isActive = pathname === link.href;
-
                     return (
                       <li key={link.href}>
-                        <Link prefetch={false}
+                        <Link
+                          prefetch={false}
                           href={link.href}
                           scroll
-                          className={`relative inline-flex items-center justify-center overflow-hidden rounded-xl px-3 py-3 text-sm font-bold transition-all duration-300 ease-out before:absolute before:bottom-[5px] before:left-1/2 before:h-[3px] before:w-0 before:-translate-x-1/2 before:rounded-full before:bg-blue-600 before:transition-[width] before:duration-300 hover:-translate-y-0.5 hover:before:w-[65%] xl:px-[18px] xl:text-[15px] ${
+                          className={`relative inline-flex items-center justify-center rounded-xl px-3 py-2.5 text-sm font-extrabold transition-all duration-300 xl:px-4 ${
                             isActive
-                              ? "bg-blue-50 text-blue-600 after:absolute after:bottom-1.5 after:left-3.5 after:right-3.5 after:h-[3px] after:rounded-full after:bg-gradient-to-r after:from-blue-600 after:to-blue-900"
-                              : "text-slate-900 hover:bg-blue-50 hover:text-blue-600"
+                              ? "bg-blue-50 text-blue-700 shadow-[inset_0_0_0_1px_rgba(37,99,235,0.08)]"
+                              : "text-slate-700 hover:bg-blue-50 hover:text-blue-700"
                           }`}
                         >
                           {link.label}
+                          {isActive && <span className="absolute -bottom-1 left-1/2 h-0.5 w-6 -translate-x-1/2 rounded-full bg-blue-600" />}
                         </Link>
                       </li>
                     );
                   })}
                 </ul>
 
-                <div className="flex shrink-0 items-center gap-3">
-                  <a
-                    href="https://wa.me/919829824356"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 rounded-[14px] bg-[#25d366] px-4 py-3 text-sm font-extrabold text-white transition-[transform,box-shadow] duration-[350ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:scale-[1.03] hover:shadow-[0_16px_35px_rgba(37,211,102,0.35)] xl:px-[22px] xl:text-[15px]"
-                  >
-                    <FontAwesomeIcon aria-hidden="true" icon={faWhatsapp} />
-                    WhatsApp
+                <div className="flex shrink-0 items-center gap-3 border-l border-blue-100 pl-4 xl:pl-6">
+                  <a href="tel:+919829824356" className="hidden items-center gap-3 xl:flex">
+                    <span className="grid h-11 w-11 place-items-center rounded-full border border-blue-100 bg-blue-50 text-blue-700">
+                      <FontAwesomeIcon aria-hidden="true" icon={faPhone} />
+                    </span>
+                    <span>
+                      <span className="block text-[10px] font-bold uppercase tracking-wide text-slate-400">Call us now</span>
+                      <span className="text-sm font-black text-[#08376f]">+91 98298 24356</span>
+                    </span>
                   </a>
-
-                  <Link prefetch={false}
+                  <Link
+                    prefetch={false}
                     href="/book-appointment"
                     scroll
-                    className="inline-flex items-center justify-center gap-2 rounded-[14px] bg-gradient-to-br from-blue-600 to-blue-900 px-4 py-3 text-sm font-extrabold text-white transition-[transform,box-shadow] duration-[350ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:scale-[1.03] hover:shadow-[0_18px_35px_rgba(13,110,253,0.35)] xl:px-6 xl:text-[15px]"
+                    className="inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-blue-600 to-[#0b3c91] px-5 py-3 text-sm font-black text-white shadow-[0_14px_32px_rgba(37,99,235,0.26)] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_20px_40px_rgba(37,99,235,0.34)] xl:px-6"
                   >
                     <FontAwesomeIcon aria-hidden="true" icon={faCalendarCheck} />
                     Book Appointment
@@ -270,25 +226,21 @@ export default function Header() {
 
               <div
                 id="mobile-navigation"
-                className={`w-full border-t border-blue-100 pt-4 transition lg:hidden ${
-                  menuOpen ? "block animate-nav-drop" : "hidden"
-                }`}
+                className={`w-full border-t border-blue-100 pt-4 transition lg:hidden ${menuOpen ? "block animate-nav-drop" : "hidden"}`}
               >
-                <ul className="flex list-none flex-col items-stretch gap-1.5 p-0">
+                <ul className="grid list-none gap-1.5 p-0">
                   {navLinks.map((link) => {
                     const isActive = pathname === link.href;
-
                     return (
                       <li key={link.href}>
-                        <Link prefetch={false}
+                        <Link
+                          prefetch={false}
                           href={link.href}
                           onClick={() => setMenuOpen(false)}
-                          className={`flex w-full justify-start rounded-[14px] px-[15px] py-[13px] font-bold transition-all duration-300 hover:pl-[22px] ${
-                            isActive
-                              ? "bg-blue-50 text-blue-600"
-                              : "text-slate-900 hover:bg-blue-50 hover:text-blue-600"
-                          }`}
                           scroll
+                          className={`flex w-full rounded-xl px-4 py-3 font-extrabold transition ${
+                            isActive ? "bg-blue-50 text-blue-700" : "text-slate-800 hover:bg-blue-50 hover:text-blue-700"
+                          }`}
                         >
                           {link.label}
                         </Link>
@@ -296,23 +248,22 @@ export default function Header() {
                     );
                   })}
                 </ul>
-
-                <div className="mt-3 flex w-full flex-col gap-2.5 pb-2">
+                <div className="mt-3 grid gap-2.5 pb-2 sm:grid-cols-2">
                   <a
                     href="https://wa.me/919829824356"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex w-full items-center justify-center gap-2 rounded-[14px] bg-[#25d366] px-[18px] py-3.5 text-sm font-extrabold text-white shadow-[0_10px_25px_rgba(37,211,102,0.28)]"
+                    className="inline-flex items-center justify-center gap-2 rounded-xl border border-green-200 bg-green-50 px-4 py-3.5 text-sm font-black text-green-700"
                   >
                     <FontAwesomeIcon aria-hidden="true" icon={faWhatsapp} />
                     WhatsApp
                   </a>
-
-                  <Link prefetch={false}
+                  <Link
+                    prefetch={false}
                     href="/book-appointment"
                     onClick={() => setMenuOpen(false)}
                     scroll
-                    className="inline-flex w-full items-center justify-center gap-2 rounded-[14px] bg-gradient-to-br from-blue-600 to-blue-900 px-[18px] py-3.5 text-sm font-extrabold text-white shadow-[0_12px_30px_rgba(13,110,253,0.25)]"
+                    className="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-[#0b3c91] px-4 py-3.5 text-sm font-black text-white"
                   >
                     <FontAwesomeIcon aria-hidden="true" icon={faCalendarCheck} />
                     Book Appointment
